@@ -4,32 +4,35 @@
 #include <iostream>
 namespace tinyDNN 
 {
-	struct LayerParameter
-	{
-		int layerType;
-		int intNum;
-		int outNum;
-		int actType;
-		int initialType;
-
-
+	//struct LayerParameter
+	//{
+	//	int layerType;
+	//	int intNum;
+	//	int outNum;
+	//	int actType;
+	//	int initialType;
+	//};
+	enum LayerType 
+	{	
+		Fullconnect_Layer = 1, 		
 	};
 
 	template <typename Dtype>
 	class LayerQL
 	{
 	public:
-		explicit LayerQL();
+		explicit LayerQL( LayerType type ) ;
 		virtual ~LayerQL();
 
-		virtual void calForward( std::unique_ptr<MatrixQL<Dtype>>& matrixIn, std::unique_ptr<MatrixQL<Dtype>>& matrixOut ) const  = 0;
-		virtual void calBackward( std::unique_ptr<MatrixQL<Dtype>>& matrixIn, std::unique_ptr<MatrixQL<Dtype>>& matrixOut )  = 0;
+		virtual void calForward( std::unique_ptr<MatrixQL<Dtype>>& matrixLeft, std::unique_ptr<MatrixQL<Dtype>>& matrixRight ) const  = 0;
+		virtual void calBackward( std::unique_ptr<MatrixQL<Dtype>>& matrixRight, std::unique_ptr<MatrixQL<Dtype>>& matrixLeft ) = 0;
 
-
+	protected:
+		LayerType layerType;
 	};
-
+	//******************************************************************************************************************************
 	template <typename Dtype>
-	LayerQL<Dtype>::LayerQL()
+	LayerQL<Dtype>::LayerQL( LayerType type ) : layerType(type)
 	{
 		std::cout << "Layer Start!" << std::endl;
 

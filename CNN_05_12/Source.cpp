@@ -3,6 +3,7 @@
 #include "iostream"
 #include "memory"
 #include "Fullconnect_LayerQL.h"
+#include "Bias_LayerQL.h"
 using namespace tinyDNN;
 int main()
 {
@@ -44,11 +45,9 @@ int main()
 
 	//std::shared_ptr<LayerQL<double>> layerTest; 
 	//layerTest = std::make_shared<Fullconnect_LayerQL<double>>();
-	std::unique_ptr<LayerQL<double>> layerTest = std::make_unique<Fullconnect_LayerQL<double>>();
-
+	std::unique_ptr<LayerQL<double>> layerTest = std::make_unique<Fullconnect_LayerQL<double>>( Fullconnect_Layer,3,3 );
 	layerTest->calForward(matrixIn,matrixOut);
-
 	std::cout << matrixOut->getMatrixQL() << std::endl;
 
-	//delete layerTest;
+	std::unique_ptr<LayerQL<double>> layerTest_Bias = std::make_unique<Bias_LayerQL<double>>( Fullconnect_Layer );
 }
