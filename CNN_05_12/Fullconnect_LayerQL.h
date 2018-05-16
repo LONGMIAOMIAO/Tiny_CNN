@@ -7,11 +7,11 @@ namespace tinyDNN
 	class Fullconnect_LayerQL : public LayerQL<Dtype>
 	{
 	public:
-		explicit Fullconnect_LayerQL( LayerType type, int RowNum, int ColNum);
+		explicit Fullconnect_LayerQL( LayerType type, int rowNum, int rolNum);
 		~Fullconnect_LayerQL() final;
 
-		void calForward( std::unique_ptr<MatrixQL<Dtype>>& matrixIn, std::unique_ptr<MatrixQL<Dtype>>& matrixOut) const override final;
-		void calBackward(std::unique_ptr<MatrixQL<Dtype>>& matrixIn, std::unique_ptr<MatrixQL<Dtype>>& matrixOut) final;
+		void calForward( std::unique_ptr<MatrixQL<Dtype>>& feed_Left, std::unique_ptr<MatrixQL<Dtype>>& feed_Right) const override final;
+		void calBackward(std::unique_ptr<MatrixQL<Dtype>>& loss_Right, std::unique_ptr<MatrixQL<Dtype>>& loss_Left) final;
 
 	protected:
 		std::unique_ptr<MatrixQL<Dtype>> w_MatrixQL;
@@ -19,15 +19,15 @@ namespace tinyDNN
 
 	//*****************************************************************************************************
 	template <typename Dtype>
-	Fullconnect_LayerQL<Dtype>::Fullconnect_LayerQL(LayerType type, int RowNum, int ColNum) : LayerQL(type)
+	Fullconnect_LayerQL<Dtype>::Fullconnect_LayerQL(LayerType type, int rowNum, int colNum) : LayerQL(type)
 	{
 		std::cout << "Fullconnect_LayerQL Start!" << std::endl;
 
 		//std::unique_ptr<MatrixQL<Dtype>> iniMatrix(new MatrixQL<Dtype>(3, 3));
 		//this->wMatrixQL = std::move(iniMatrix);
 
-		this->w_MatrixQL = std::make_unique<MatrixQL<Dtype>>(RowNum, ColNum);
-		this->w_MatrixQL->setMatrixQL().setConstant(2);
+		this->w_MatrixQL = std::make_unique<MatrixQL<Dtype>>(rowNum, colNum);
+		this->w_MatrixQL->setMatrixQL().setConstant(2.2);
 	}
 
 	template <typename Dtype>
@@ -37,14 +37,14 @@ namespace tinyDNN
 	}
 
 	template <typename Dtype>
-	void Fullconnect_LayerQL<Dtype>::calForward(std::unique_ptr<MatrixQL<Dtype>>& matrixLeft, std::unique_ptr<MatrixQL<Dtype>>& matrixRight) const
+	void Fullconnect_LayerQL<Dtype>::calForward(std::unique_ptr<MatrixQL<Dtype>>& feed_Left, std::unique_ptr<MatrixQL<Dtype>>& feed_Right) const
 	{
-		matrixRight->setMatrixQL() = matrixLeft->getMatrixQL() * this->w_MatrixQL->getMatrixQL();
+		feed_Right->setMatrixQL() = feed_Left->getMatrixQL() * this->w_MatrixQL->getMatrixQL();
 	}
 
 	template <typename Dtype>
-	void Fullconnect_LayerQL<Dtype>::calBackward(std::unique_ptr<MatrixQL<Dtype>>& matrixRight, std::unique_ptr<MatrixQL<Dtype>>& matrixLeft)
+	void Fullconnect_LayerQL<Dtype>::calBackward(std::unique_ptr<MatrixQL<Dtype>>& loss_Right, std::unique_ptr<MatrixQL<Dtype>>& loss_Left)
 	{
-
+		loss_Left->setMatrixQL() = loss_Right->getMatrixQL() * this->w_MatrixQL->getMatrixQL().transpose();
 	}
 }

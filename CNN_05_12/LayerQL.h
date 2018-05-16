@@ -14,7 +14,8 @@ namespace tinyDNN
 	//};
 	enum LayerType 
 	{	
-		Fullconnect_Layer = 1, 		
+		Fullconnect_Layer = 1,
+		Bias_Layer = 2
 	};
 
 	template <typename Dtype>
@@ -24,8 +25,8 @@ namespace tinyDNN
 		explicit LayerQL( LayerType type ) ;
 		virtual ~LayerQL();
 
-		virtual void calForward( std::unique_ptr<MatrixQL<Dtype>>& matrixLeft, std::unique_ptr<MatrixQL<Dtype>>& matrixRight ) const  = 0;
-		virtual void calBackward( std::unique_ptr<MatrixQL<Dtype>>& matrixRight, std::unique_ptr<MatrixQL<Dtype>>& matrixLeft ) = 0;
+		virtual void calForward( std::unique_ptr<MatrixQL<Dtype>>& feed_Left, std::unique_ptr<MatrixQL<Dtype>>& feed_Right ) const  = 0;
+		virtual void calBackward( std::unique_ptr<MatrixQL<Dtype>>& loss_Right, std::unique_ptr<MatrixQL<Dtype>>& loss_Left ) = 0;
 
 	protected:
 		LayerType layerType;

@@ -6,18 +6,23 @@ namespace tinyDNN
 	class Bias_LayerQL : public LayerQL<Dtype>
 	{
 	public:
-		explicit Bias_LayerQL( LayerType type );
+		explicit Bias_LayerQL( LayerType type, int rowNum, int colNum);
 		~Bias_LayerQL() final;
 
-		void calForward(std::unique_ptr<MatrixQL<Dtype>>& matrixIn, std::unique_ptr<MatrixQL<Dtype>>& matrixOut) const override final;
-		void calBackward(std::unique_ptr<MatrixQL<Dtype>>& matrixIn, std::unique_ptr<MatrixQL<Dtype>>& matrixOut) final;
+		void calForward(std::unique_ptr<MatrixQL<Dtype>>& feed_Left, std::unique_ptr<MatrixQL<Dtype>>& feed_Right) const override final;
+		void calBackward(std::unique_ptr<MatrixQL<Dtype>>& loss_Right, std::unique_ptr<MatrixQL<Dtype>>& loss_Left) final;
 
+	protected:
+		std::unique_ptr<MatrixQL<Dtype>> b_MatrixQL;
 	};
 	//*******************************************************************************************************************************
 	template <typename Dtype>
-	Bias_LayerQL<Dtype>::Bias_LayerQL(LayerType type) : LayerQL(type)
+	Bias_LayerQL<Dtype>::Bias_LayerQL(LayerType type, int rowNum, int colNum) : LayerQL(type)
 	{
 		std::cout << "Bias_LayerQL Start!" << std::endl;
+		this->b_MatrixQL = std::make_unique<MatrixQL<Dtype>>( rowNum, colNum);
+		this->b_MatrixQL->setMatrixQL().setConstant(5.23);
+		//this->b_MatrixQL->setMatrixQL().setRandom();
 	}
 
 	template <typename Dtype>
@@ -27,15 +32,15 @@ namespace tinyDNN
 	}
 
 	template <typename Dtype>
-	void Bias_LayerQL<Dtype>::calForward(std::unique_ptr<MatrixQL<Dtype>>& matrixLeft, std::unique_ptr<MatrixQL<Dtype>>& matrixRight) const
+	void Bias_LayerQL<Dtype>::calForward(std::unique_ptr<MatrixQL<Dtype>>& feed_Left, std::unique_ptr<MatrixQL<Dtype>>& feed_Right) const
 	{
-
+		feed_Right->setMatrixQL() = feed_Left->getMatrixQL() + this->b_MatrixQL->getMatrixQL();
 	}
 
 	template <typename Dtype>
-	void Bias_LayerQL<Dtype>::calBackward(std::unique_ptr<MatrixQL<Dtype>>& matrixRight, std::unique_ptr<MatrixQL<Dtype>>& matrixLeft)
+	void Bias_LayerQL<Dtype>::calBackward(std::unique_ptr<MatrixQL<Dtype>>& loss_Right, std::unique_ptr<MatrixQL<Dtype>>& loss_Left)
 	{
-
+		loss_Left->setMatrixQL() = loss_Left->getMatrixQL();
 	}
 
 }

@@ -38,16 +38,28 @@ int main()
 	std::unique_ptr<MatrixQL<double>> matrixIn(new MatrixQL<double> (1,3));
 	matrixIn->setMatrixQL().setOnes();
 
-	std::unique_ptr<MatrixQL<double>> matrixOut(new MatrixQL<double> (1,3));
+	std::unique_ptr<MatrixQL<double>> matrixOut(new MatrixQL<double> (1,4));
 	matrixOut->setMatrixQL().setOnes();
+
+	std::unique_ptr<MatrixQL<double>> matrixOut_02(new MatrixQL<double>(1, 4));
+	matrixOut_02->setMatrixQL().setOnes();
 
 	//LayerQL<double>* layerTest = new Fullconnect_LayerQL<double>;
 
 	//std::shared_ptr<LayerQL<double>> layerTest; 
 	//layerTest = std::make_shared<Fullconnect_LayerQL<double>>();
-	std::unique_ptr<LayerQL<double>> layerTest = std::make_unique<Fullconnect_LayerQL<double>>( Fullconnect_Layer,3,3 );
+	std::unique_ptr<LayerQL<double>> layerTest = std::make_unique<Fullconnect_LayerQL<double>>( Fullconnect_Layer,3,4 );
 	layerTest->calForward(matrixIn,matrixOut);
 	std::cout << matrixOut->getMatrixQL() << std::endl;
 
-	std::unique_ptr<LayerQL<double>> layerTest_Bias = std::make_unique<Bias_LayerQL<double>>( Fullconnect_Layer );
+	layerTest->calBackward(matrixOut, matrixIn);
+	std::cout << matrixIn->getMatrixQL() << std::endl;
+
+	std::unique_ptr<LayerQL<double>> layerTest_Bias = std::make_unique<Bias_LayerQL<double>>(Bias_Layer, 1, 4 );
+	layerTest_Bias->calForward(matrixOut, matrixOut_02);
+	std::cout << matrixOut_02->getMatrixQL() << std::endl;
+
+	layerTest_Bias->calBackward(matrixOut_02, matrixOut);
+	std::cout << matrixOut_02->getMatrixQL() << std::endl;
+
 }
