@@ -28,6 +28,7 @@ namespace tinyDNN
 		virtual void calForward( std::unique_ptr<MatrixQL<Dtype>>& feed_Left, std::unique_ptr<MatrixQL<Dtype>>& feed_Right ) const  = 0;
 		virtual void calBackward( std::unique_ptr<MatrixQL<Dtype>>& loss_Right, std::unique_ptr<MatrixQL<Dtype>>& loss_Left ) = 0;
 
+
 	protected:
 		LayerType layerType;
 	};

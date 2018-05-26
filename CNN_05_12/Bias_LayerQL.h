@@ -21,8 +21,8 @@ namespace tinyDNN
 	{
 		std::cout << "Bias_LayerQL Start!" << std::endl;
 		this->b_MatrixQL = std::make_unique<MatrixQL<Dtype>>( rowNum, colNum);
+		//这里后期需要改
 		this->b_MatrixQL->setMatrixQL().setConstant(5.23);
-		//this->b_MatrixQL->setMatrixQL().setRandom();
 	}
 
 	template <typename Dtype>
@@ -40,7 +40,7 @@ namespace tinyDNN
 	template <typename Dtype>
 	void Bias_LayerQL<Dtype>::calBackward(std::unique_ptr<MatrixQL<Dtype>>& loss_Right, std::unique_ptr<MatrixQL<Dtype>>& loss_Left)
 	{
-		loss_Left->setMatrixQL() = loss_Left->getMatrixQL();
+		loss_Left->setMatrixQL() = loss_Right->getMatrixQL();
 	}
 
 }

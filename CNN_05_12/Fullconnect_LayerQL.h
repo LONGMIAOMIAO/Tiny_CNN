@@ -27,6 +27,7 @@ namespace tinyDNN
 		//this->wMatrixQL = std::move(iniMatrix);
 
 		this->w_MatrixQL = std::make_unique<MatrixQL<Dtype>>(rowNum, colNum);
+		//这里后期需要改
 		this->w_MatrixQL->setMatrixQL().setConstant(2.2);
 	}
 

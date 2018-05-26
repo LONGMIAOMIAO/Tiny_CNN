@@ -4,9 +4,16 @@
 #include "memory"
 #include "Fullconnect_LayerQL.h"
 #include "Bias_LayerQL.h"
+#include "Test.h"
 using namespace tinyDNN;
 int main()
 {
+	Test test;
+
+
+
+
+	return 0;
 	//MatrixQL<float> mm(2,2);
 	//mm.setMatrixQL().setRandom();
 	//std::cout << (mm.getMatrixQL()) << std::endl;
@@ -14,7 +21,6 @@ int main()
 	//std::cout << &(mm.getMatrixQL()) << std::endl;
 	//std::cout << &(mm.setMatrixQL()) << std::endl;
 	//std::cout << &(mm.getMatrixQL().cast<int>()) << std::endl;
-
 
 	//MatrixQL<int> nn(2, 2);
 	//nn.setMatrixQL().setOnes();
