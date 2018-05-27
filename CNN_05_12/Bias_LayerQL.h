@@ -7,10 +7,12 @@ namespace tinyDNN
 	{
 	public:
 		explicit Bias_LayerQL( LayerType type, int rowNum, int colNum);
-		~Bias_LayerQL() final;
+		~Bias_LayerQL() override final;
 
 		void calForward(std::unique_ptr<MatrixQL<Dtype>>& feed_Left, std::unique_ptr<MatrixQL<Dtype>>& feed_Right) const override final;
-		void calBackward(std::unique_ptr<MatrixQL<Dtype>>& loss_Right, std::unique_ptr<MatrixQL<Dtype>>& loss_Left) final;
+		void calBackward(std::unique_ptr<MatrixQL<Dtype>>& loss_Right, std::unique_ptr<MatrixQL<Dtype>>& loss_Left)   override final;
+
+		//std::unique_ptr<LayerQL<Dtype>> operator+(const std::unique_ptr<LayerQL<Dtype>>& operRight) const override final;
 
 	protected:
 		std::unique_ptr<MatrixQL<Dtype>> b_MatrixQL;
@@ -42,5 +44,13 @@ namespace tinyDNN
 	{
 		loss_Left->setMatrixQL() = loss_Right->getMatrixQL();
 	}
+
+	//template <typename Dtype>
+	//std::unique_ptr<LayerQL<Dtype>> Bias_LayerQL<Dtype>::operator+(const std::unique_ptr<LayerQL<Dtype>>& operRight) const
+	//{
+	//	//std::unique_ptr<LayerQL<Dtype>> tt;
+	//	//return tt;
+	//	return NULL;
+	//};
 
 }
