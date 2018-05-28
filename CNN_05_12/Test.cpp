@@ -4,7 +4,7 @@ namespace tinyDNN
 {
 	Test::Test()
 	{
-		////Full_Layer ForwardTrans
+		//Full_Layer ForwardTrans
 		//this->Fullconnect_Layer_Forward_Test();
 		////Full_Layer BackwardTrans
 		//this->Fullconnect_Layer_Backward_Test();
@@ -78,31 +78,36 @@ namespace tinyDNN
 
 	void Test::Operator_Test()
 	{
-		std::shared_ptr<LayerQL<double>> left_Layer = std::make_shared<Inter_LayerQL<double>>(Inter_Layer);
-		
+		std::shared_ptr<Inter_LayerQL<double>> left_Layer = std::make_shared<Inter_LayerQL<double>>();
+		left_Layer->forward_Matrix = std::make_unique<MatrixQL<double>>( 2, 3 ) ;
+		left_Layer->forward_Matrix->setMatrixQL().setConstant(1.2);
+		std::cout << left_Layer->forward_Matrix->getMatrixQL() << std::endl;
+
 		std::shared_ptr<LayerQL<double>> bias_Layer = std::make_shared<Bias_LayerQL<double>>(Bias_Layer,2,3);
+		std::shared_ptr<Inter_LayerQL<double>> out_01 = left_Layer + bias_Layer;
 
-		std::shared_ptr<LayerQL<double>> out_01 = left_Layer + bias_Layer;
+		bias_Layer->calForward(left_Layer->forward_Matrix,out_01->forward_Matrix);
 
-		//std::cout << out_01->layerType << std::endl;
-
-		std::cout << bias_Layer->left_Layer->layerType << std::endl;
-		std::cout << bias_Layer->right_Layer->layerType << std::endl;
+		std::cout << bias_Layer->left_Layer->forward_Matrix->getMatrixQL() << std::endl;
+		std::cout << bias_Layer->right_Layer->forward_Matrix->getMatrixQL() << std::endl;
+		//*******************************************************************************************************//
 
 		std::shared_ptr<LayerQL<double>> bias_Layer_02 = std::make_shared<Bias_LayerQL<double>>(Bias_Layer, 2, 3);
+		std::shared_ptr<Inter_LayerQL<double>> out_02 = out_01 + bias_Layer_02;
 
-		std::shared_ptr<LayerQL<double>> out_02 = out_01 + bias_Layer_02;
+		bias_Layer_02->calForward(out_01->forward_Matrix, out_02->forward_Matrix);
 
-		std::cout << bias_Layer_02->left_Layer->layerType << std::endl;
-		std::cout << bias_Layer_02->right_Layer->layerType << std::endl;
+		std::cout << bias_Layer_02->left_Layer->forward_Matrix->getMatrixQL() << std::endl;
+		std::cout << bias_Layer_02->right_Layer->forward_Matrix->getMatrixQL() << std::endl;
+
+		//*******************************************************************************************************//
 
 		std::shared_ptr<LayerQL<double>> bias_Layer_03 = std::make_shared<Bias_LayerQL<double>>(Bias_Layer, 2, 3);
+		std::shared_ptr<Inter_LayerQL<double>> out_03 = out_02 + bias_Layer_03;
 
-		std::shared_ptr<LayerQL<double>> out_03 = out_02 + bias_Layer_03;
+		bias_Layer_03->calForward(out_02->forward_Matrix, out_03->forward_Matrix);
 
-		std::cout << bias_Layer_03->left_Layer->layerType << std::endl;
-		std::cout << bias_Layer_03->right_Layer->layerType << std::endl;
-
-
+		std::cout << bias_Layer_03->left_Layer->forward_Matrix->getMatrixQL() << std::endl;
+		std::cout << bias_Layer_03->right_Layer->forward_Matrix->getMatrixQL() << std::endl;
 	}
 }

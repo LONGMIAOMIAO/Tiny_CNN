@@ -1,31 +1,40 @@
 #pragma once
-#include "LayerQL.h"
+//#include "LayerQL.h"
+#include "MatrixQL.h"
+#include "memory"
+#include <iostream>
+//#include "LayerQL.h"
 
 namespace tinyDNN
 {
 	template <typename Dtype>
-	class Inter_LayerQL : public LayerQL<Dtype>
+	class LayerQL;
+
+	template <typename Dtype>
+	class Inter_LayerQL
 	{
 	public:
+		friend class Test;
+		
+		template <typename Dtype> friend std::shared_ptr<Inter_LayerQL<Dtype>> operator+(std::shared_ptr<Inter_LayerQL<Dtype>>& operLeft, std::shared_ptr<LayerQL<Dtype>>& operRight);
 
-		//template <typename Dtype> friend class Fullconnect_LayerQL;
-		Inter_LayerQL(LayerType type/*, int rowNum, int rolNum*/);
-		~Inter_LayerQL() override final;
+		Inter_LayerQL(/*, int rowNum, int rolNum*/);
+		~Inter_LayerQL();
 
-		//std::unique_ptr<LayerQL<Dtype>> operator+(const std::unique_ptr<LayerQL<Dtype>>& operRight) const override final;
-		void calForward(std::unique_ptr<MatrixQL<Dtype>>& feed_Left, std::unique_ptr<MatrixQL<Dtype>>& feed_Right) const override final {};
-		void calBackward(std::unique_ptr<MatrixQL<Dtype>>& loss_Right, std::unique_ptr<MatrixQL<Dtype>>& loss_Left) override final {};
-
+		////std::unique_ptr<LayerQL<Dtype>> operator+(const std::unique_ptr<LayerQL<Dtype>>& operRight) const override final;
+		//void calForward(std::unique_ptr<MatrixQL<Dtype>>& feed_Left, std::unique_ptr<MatrixQL<Dtype>>& feed_Right) const override final {};
+		//void calBackward(std::unique_ptr<MatrixQL<Dtype>>& loss_Right, std::unique_ptr<MatrixQL<Dtype>>& loss_Left) override final {};
 
 
-	protected:
+
+	private:
 		std::unique_ptr<MatrixQL<Dtype>> forward_Matrix;
 		std::unique_ptr<MatrixQL<Dtype>> backward_Matrix;
 	};
 
 
 	template <typename Dtype>
-	Inter_LayerQL<Dtype>::Inter_LayerQL(LayerType type/*, int rowNum, int rolNum*/) : LayerQL(type)
+	Inter_LayerQL<Dtype>::Inter_LayerQL()
 	{
 		std::cout << "Inter_Layer Start!" << std::endl;
 

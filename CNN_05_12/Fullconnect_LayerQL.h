@@ -5,7 +5,6 @@ namespace tinyDNN
 {
 
 
-
 	template <typename Dtype> 
 	class Fullconnect_LayerQL : public LayerQL<Dtype>
 	{
@@ -15,6 +14,8 @@ namespace tinyDNN
 
 		void calForward( std::unique_ptr<MatrixQL<Dtype>>& feed_Left, std::unique_ptr<MatrixQL<Dtype>>& feed_Right) const override final;
 		void calBackward(std::unique_ptr<MatrixQL<Dtype>>& loss_Right, std::unique_ptr<MatrixQL<Dtype>>& loss_Left) override final;
+
+
 
 		//std::unique_ptr<LayerQL<Dtype>> operator+(const std::unique_ptr<LayerQL<Dtype>>& operRight) const override final;
 
