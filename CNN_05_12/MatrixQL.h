@@ -10,6 +10,7 @@ namespace tinyDNN {
 		//	定义底层Eigen矩阵模板
 		using MatrixData = Eigen::Matrix <Dtype, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
 	public:
+		//MatrixQL() = default;
 		//	显式调用模板构造函数
 		explicit MatrixQL(int rowNum, int colNum);
 		//	析构函数

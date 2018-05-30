@@ -3,6 +3,7 @@
 #include "Fullconnect_LayerQL.h"
 #include "Bias_LayerQL.h"
 #include "Inter_LayerQL.h"
+#include "Sigmoid_LayerQL.h"
 
 namespace tinyDNN
 {
@@ -19,6 +20,10 @@ namespace tinyDNN
 		void Bias_Layer_Forward_Test();
 
 		void Bias_Layer_Backward_Test();
+
+		void Sigmoid_LayerQL_Forward_Test();
+
+		void Sigmoid_LayerQL_Backward_Test();
 
 		void Operator_Test();
 	};

@@ -9,10 +9,8 @@ namespace tinyDNN
 		explicit Bias_LayerQL( LayerType type, int rowNum, int colNum);
 		~Bias_LayerQL() override final;
 
-		void calForward(std::unique_ptr<MatrixQL<Dtype>>& feed_Left, std::unique_ptr<MatrixQL<Dtype>>& feed_Right) const override final;
-		void calBackward(std::unique_ptr<MatrixQL<Dtype>>& loss_Right, std::unique_ptr<MatrixQL<Dtype>>& loss_Left)   override final;
-
-		//std::unique_ptr<LayerQL<Dtype>> operator+(const std::unique_ptr<LayerQL<Dtype>>& operRight) const override final;
+		void calForward() const override final;
+		void calBackward() override final;
 
 	protected:
 		std::unique_ptr<MatrixQL<Dtype>> b_MatrixQL;
@@ -34,23 +32,17 @@ namespace tinyDNN
 	}
 
 	template <typename Dtype>
-	void Bias_LayerQL<Dtype>::calForward(std::unique_ptr<MatrixQL<Dtype>>& feed_Left, std::unique_ptr<MatrixQL<Dtype>>& feed_Right) const
+	void Bias_LayerQL<Dtype>::calForward() const
 	{
-		feed_Right->setMatrixQL() = feed_Left->getMatrixQL() + this->b_MatrixQL->getMatrixQL();
+		std::cout << this->b_MatrixQL->getMatrixQL() << std::endl;
+		this->right_Layer->forward_Matrix->setMatrixQL() = this->left_Layer->forward_Matrix->getMatrixQL() + this->b_MatrixQL->getMatrixQL();
 	}
 
 	template <typename Dtype>
-	void Bias_LayerQL<Dtype>::calBackward(std::unique_ptr<MatrixQL<Dtype>>& loss_Right, std::unique_ptr<MatrixQL<Dtype>>& loss_Left)
+	void Bias_LayerQL<Dtype>::calBackward()
 	{
-		loss_Left->setMatrixQL() = loss_Right->getMatrixQL();
+		std::cout << this->b_MatrixQL->getMatrixQL() << std::endl;
+		this->left_Layer->backward_Matrix->setMatrixQL() = this->right_Layer->backward_Matrix->getMatrixQL();
 	}
-
-	//template <typename Dtype>
-	//std::unique_ptr<LayerQL<Dtype>> Bias_LayerQL<Dtype>::operator+(const std::unique_ptr<LayerQL<Dtype>>& operRight) const
-	//{
-	//	//std::unique_ptr<LayerQL<Dtype>> tt;
-	//	//return tt;
-	//	return NULL;
-	//};
 
 }
