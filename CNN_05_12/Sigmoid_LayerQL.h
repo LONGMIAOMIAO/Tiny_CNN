@@ -12,6 +12,8 @@ namespace tinyDNN
 
 		void calForward() const override final;
 		void calBackward() override final;
+
+		void upMatrix() override final {};
 	};
 
 	template <typename Dtype>
@@ -38,5 +40,6 @@ namespace tinyDNN
 		this->left_Layer->backward_Matrix->setMatrixQL() = this->right_Layer->backward_Matrix->getMatrixQL().array() *( (this->right_Layer->forward_Matrix->getMatrixQL()).array() * (1 - (this->right_Layer->forward_Matrix->getMatrixQL()).array()) );
 
 	}
+
 
 }

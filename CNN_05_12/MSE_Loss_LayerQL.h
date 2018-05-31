@@ -12,6 +12,8 @@ namespace tinyDNN
 
 		void calForward() const override final;
 		void calBackward() override final;
+
+		void upMatrix() override final {};
 	};
 
 	template <typename Dtype>

@@ -22,6 +22,7 @@ namespace tinyDNN
 
 		virtual void calForward() const = 0;
 		virtual void calBackward() = 0;
+		virtual void upMatrix() = 0;
 		
 		friend class Test;
 		template <typename Dtype> 

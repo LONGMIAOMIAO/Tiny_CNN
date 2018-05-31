@@ -11,6 +11,7 @@ namespace tinyDNN
 
 		void calForward() const override final;
 		void calBackward() override final;
+		void upMatrix() override final;
 
 	protected:
 		std::unique_ptr<MatrixQL<Dtype>> b_MatrixQL;
@@ -22,7 +23,7 @@ namespace tinyDNN
 		std::cout << "Bias_LayerQL Start!" << std::endl;
 		this->b_MatrixQL = std::make_unique<MatrixQL<Dtype>>( rowNum, colNum);
 		//这里后期需要改
-		this->b_MatrixQL->setMatrixQL().setConstant(5.23);
+		this->b_MatrixQL->setMatrixQL().setConstant(0.1);
 	}
 
 	template <typename Dtype>
@@ -34,15 +35,22 @@ namespace tinyDNN
 	template <typename Dtype>
 	void Bias_LayerQL<Dtype>::calForward() const
 	{
-		std::cout << this->b_MatrixQL->getMatrixQL() << std::endl;
+		//std::cout << this->b_MatrixQL->getMatrixQL() << std::endl;
 		this->right_Layer->forward_Matrix->setMatrixQL() = this->left_Layer->forward_Matrix->getMatrixQL() + this->b_MatrixQL->getMatrixQL();
 	}
 
 	template <typename Dtype>
 	void Bias_LayerQL<Dtype>::calBackward()
 	{
-		std::cout << this->b_MatrixQL->getMatrixQL() << std::endl;
+		//std::cout << this->b_MatrixQL->getMatrixQL() << std::endl;
 		this->left_Layer->backward_Matrix->setMatrixQL() = this->right_Layer->backward_Matrix->getMatrixQL();
 	}
 
+	template <typename Dtype>
+	void Bias_LayerQL<Dtype>::upMatrix()
+	{
+		//std::cout << this->right_Layer->backward_Matrix->getMatrixQL() << std::endl;
+		this->b_MatrixQL->setMatrixQL() = this->b_MatrixQL->getMatrixQL() - 0.1 * (this->right_Layer->backward_Matrix->getMatrixQL());
+		//std::cout << this->b_MatrixQL->getMatrixQL() << std::endl;
+	}
 }

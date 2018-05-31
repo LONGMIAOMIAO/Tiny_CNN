@@ -2,25 +2,38 @@
 
 namespace tinyDNN
 {
+	std::shared_ptr<Inter_LayerQL<double>> Test::input_Layer = std::make_shared<Inter_LayerQL<double>>(55000, 784);
+	std::shared_ptr<Inter_LayerQL<double>> Test::output_Layer = std::make_shared<Inter_LayerQL<double>>(55000, 10);
+
+	std::shared_ptr<Inter_LayerQL<double>> Test::input_Layer_T = std::make_shared<Inter_LayerQL<double>>(10000, 784);
+	std::shared_ptr<Inter_LayerQL<double>> Test::output_Layer_T = std::make_shared<Inter_LayerQL<double>>(10000, 10);
+
 	Test::Test()
 	{
 		//Full_Layer ForwardTrans
 		//this->Fullconnect_Layer_Forward_Test();
 		////Full_Layer BackwardTrans
 		//this->Fullconnect_Layer_Backward_Test();
+		//Full_Layer_update
+		//this->Fullconnect_Layer_Update_Test();
 		////Bias_Layer ForwardTrans
 		//this->Bias_Layer_Forward_Test();
 		////Bias_Layer BackwardTrans
 		//this->Bias_Layer_Backward_Test();
+		////Bias_Layer update
+		//this->Bias_Layer_Update_Test();
 		//Operator_Layer
 		//this->Operator_Test();
-		//=========================================================================================
+		//==========================================
 		//Sigmoid_LayerQL ForwardTrans
 		//this->Sigmoid_LayerQL_Forward_Test();
 		//Sigmoid_LayerQL BackwardTrans
 		//this->Sigmoid_LayerQL_Backward_Test();
 		//MSE_LOSS_BACKWARD_TEST()
-		this->MSE_Loss_LayerQL_Backward_Test();
+		//this->MSE_Loss_LayerQL_Backward_Test();
+
+		//==========================================
+		this->Mnist_Test();
 
 	}
 
@@ -77,6 +90,22 @@ namespace tinyDNN
 
 	}
 
+	void Test::Fullconnect_Layer_Update_Test()
+	{
+		std::shared_ptr<Inter_LayerQL<double>> left_Layer = std::make_shared<Inter_LayerQL<double>>(1, 5);
+		left_Layer->forward_Matrix->setMatrixQL() << 1, 2, 3, 4, 5;
+
+		std::shared_ptr<LayerQL<double>> fullLayerTest = std::make_shared<Fullconnect_LayerQL<double>>(Fullconnect_Layer, 5, 10);
+
+		std::shared_ptr<Inter_LayerQL<double>> right_Layer = left_Layer + fullLayerTest;
+
+		right_Layer->backward_Matrix->setMatrixQL().resize(1, 10);
+		right_Layer->backward_Matrix->setMatrixQL().setConstant(1);
+		
+		fullLayerTest->upMatrix();
+
+	}
+
 	void Test::Bias_Layer_Forward_Test()
 	{
 		std::shared_ptr<Inter_LayerQL<double>> left_Layer = std::make_shared<Inter_LayerQL<double>>(2,3);
@@ -124,6 +153,21 @@ namespace tinyDNN
 		biasLayer_01->calBackward();
 
 		std::cout << biasLayer_01->left_Layer->backward_Matrix->getMatrixQL() << std::endl;
+
+	}
+
+	void Test::Bias_Layer_Update_Test()
+	{
+		std::shared_ptr<Inter_LayerQL<double>> left_Layer = std::make_shared<Inter_LayerQL<double>>(1, 5);
+		left_Layer->forward_Matrix->setMatrixQL().setConstant(1.2);
+
+		std::shared_ptr<LayerQL<double>> bias_Layer = std::make_shared<Bias_LayerQL<double>>(Bias_Layer, 1, 5);
+		std::shared_ptr<Inter_LayerQL<double>> right_01 = left_Layer + bias_Layer;
+
+		right_01->backward_Matrix->setMatrixQL().resize(1, 5);
+		right_01->backward_Matrix->setMatrixQL().setConstant(10);
+
+		bias_Layer->upMatrix();
 
 	}
 
@@ -182,5 +226,61 @@ namespace tinyDNN
 	{
 
 
+	}
+
+	void Test::Mnist_Test()
+	{
+		LoadCSV::loadCSVTrain();
+		LoadCSV::loadCSVTest();
+
+		std::shared_ptr<Inter_LayerQL<double>> inLayer_01 = std::make_shared<Inter_LayerQL<double>>(1, 784);
+		std::shared_ptr<LayerQL<double>> fullLayer_01 = std::make_shared<Fullconnect_LayerQL<double>>(Fullconnect_Layer, 784, 10);
+		std::shared_ptr<Inter_LayerQL<double>> inLayer_02 = inLayer_01 + fullLayer_01;
+		std::shared_ptr<LayerQL<double>> biasLayer_01 = std::make_shared<Bias_LayerQL<double>>(Bias_Layer, 1, 10);
+		std::shared_ptr<Inter_LayerQL<double>> inLayer_03 = inLayer_02 + biasLayer_01;
+		std::shared_ptr<LayerQL<double>> sigmoidLayer_01 = std::make_shared<Sigmoid_LayerQL<double>>(Sigmoid_Layer);
+		std::shared_ptr<Inter_LayerQL<double>> inLayer_04 = inLayer_03 + sigmoidLayer_01;
+		std::shared_ptr<LayerQL<double>> lossLayer_01 = std::make_shared<MSE_Loss_LayerQL<double>>(MSE_Loss_Layer);
+		std::shared_ptr<Inter_LayerQL<double>> inLayer_05 = inLayer_04 + lossLayer_01;
+
+		//	 程序加载初始时间
+		DWORD load_time = GetTickCount();
+
+		for (int i = 0; i < 2 ; i ++)
+		{
+			for (int j = 0; j < 55000; j++)
+			{
+				inLayer_01->forward_Matrix->setMatrixQL() = Test::input_Layer->forward_Matrix->getMatrixQL().row(j);
+				inLayer_05->backward_Matrix->setMatrixQL() = Test::output_Layer->backward_Matrix->getMatrixQL().row(j);
+
+				fullLayer_01->calForward();
+				biasLayer_01->calForward();
+				sigmoidLayer_01->calForward();
+				lossLayer_01->calForward();
+
+				//std::cout << j << std::endl;
+				//std::cout << inLayer_04->forward_Matrix->getMatrixQL() << std::endl;
+
+				lossLayer_01->calBackward();
+				sigmoidLayer_01->calBackward();
+				biasLayer_01->calBackward();
+				fullLayer_01->calBackward();
+
+				fullLayer_01->upMatrix();
+				biasLayer_01->upMatrix();
+			}
+		}
+
+		//	训练和测试运行时间
+		DWORD star_time = GetTickCount();
+
+		std::cout << "这个程序加载时间为：" << (star_time - load_time) << "ms." << std::endl;
+
+
+		//std::cout << input_Layer->forward_Matrix->getMatrixQL().row(9999) << std::endl;
+		//std::cout << input_Layer_T->forward_Matrix->getMatrixQL().row(9999) << std::endl;
+
+		//std::cout << output_Layer->backward_Matrix->getMatrixQL().row(0) << std::endl;
+		//std::cout << output_Layer_T->backward_Matrix->getMatrixQL().row(0) << std::endl;
 	}
 }
