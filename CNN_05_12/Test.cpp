@@ -18,7 +18,9 @@ namespace tinyDNN
 		//Sigmoid_LayerQL ForwardTrans
 		//this->Sigmoid_LayerQL_Forward_Test();
 		//Sigmoid_LayerQL BackwardTrans
-		this->Sigmoid_LayerQL_Backward_Test();
+		//this->Sigmoid_LayerQL_Backward_Test();
+		//MSE_LOSS_BACKWARD_TEST()
+		this->MSE_Loss_LayerQL_Backward_Test();
 
 	}
 
@@ -154,6 +156,26 @@ namespace tinyDNN
 		sigmoidLayer_01->calBackward();
 
 		std::cout << intputLayer_01->backward_Matrix->getMatrixQL() << std::endl;
+	}
+
+	void Test::MSE_Loss_LayerQL_Backward_Test()
+	{
+		using inLayer = std::shared_ptr<Inter_LayerQL<double>>;
+		inLayer input_01 = std::make_shared<Inter_LayerQL<double>>(2,5);
+		input_01->forward_Matrix->setMatrixQL().setRandom();
+		std::cout << input_01->forward_Matrix->getMatrixQL() << std::endl;
+
+		std::shared_ptr<LayerQL<double>> lossLayer_01 = std::make_shared<MSE_Loss_LayerQL<double>>(MSE_Loss_Layer);
+
+		inLayer input_02 = input_01 + lossLayer_01;
+
+		input_02->backward_Matrix->setMatrixQL().resize(2, 5);
+		input_02->backward_Matrix->setMatrixQL().setConstant(1.0);
+		
+		lossLayer_01->calBackward();
+
+		std::cout << input_01->backward_Matrix->getMatrixQL() << std::endl;
+
 	}
 
 	void Test::Operator_Test()

@@ -13,6 +13,8 @@ namespace tinyDNN
 		void calForward() const override final;
 		void calBackward() override final;
 
+		//void up_W_Matrix();
+
 	protected:
 		std::unique_ptr<MatrixQL<Dtype>> w_MatrixQL;
 	};

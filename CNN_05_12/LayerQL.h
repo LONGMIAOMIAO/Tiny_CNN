@@ -9,7 +9,8 @@ namespace tinyDNN
 	{	
 		Fullconnect_Layer = 1,
 		Bias_Layer = 2,
-		Sigmoid_Layer = 3
+		Sigmoid_Layer = 3,
+		MSE_Loss_Layer = 4,
 	};
 
 	template <typename Dtype>

@@ -4,6 +4,7 @@
 #include "Bias_LayerQL.h"
 #include "Inter_LayerQL.h"
 #include "Sigmoid_LayerQL.h"
+#include "MSE_Loss_LayerQL.h"
 
 namespace tinyDNN
 {
@@ -24,6 +25,8 @@ namespace tinyDNN
 		void Sigmoid_LayerQL_Forward_Test();
 
 		void Sigmoid_LayerQL_Backward_Test();
+
+		void MSE_Loss_LayerQL_Backward_Test();
 
 		void Operator_Test();
 	};
