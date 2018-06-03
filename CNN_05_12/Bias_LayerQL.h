@@ -50,7 +50,7 @@ namespace tinyDNN
 	void Bias_LayerQL<Dtype>::upMatrix()
 	{
 		//std::cout << this->right_Layer->backward_Matrix->getMatrixQL() << std::endl;
-		this->b_MatrixQL->setMatrixQL() = this->b_MatrixQL->getMatrixQL() - 0.1 * (this->right_Layer->backward_Matrix->getMatrixQL());
+		this->b_MatrixQL->setMatrixQL() = this->b_MatrixQL->getMatrixQL() - 0.5 * (this->right_Layer->backward_Matrix->getMatrixQL());
 		//std::cout << this->b_MatrixQL->getMatrixQL() << std::endl;
 	}
 }

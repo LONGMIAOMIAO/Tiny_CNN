@@ -234,14 +234,26 @@ namespace tinyDNN
 		LoadCSV::loadCSVTest();
 
 		std::shared_ptr<Inter_LayerQL<double>> inLayer_01 = std::make_shared<Inter_LayerQL<double>>(1, 784);
-		std::shared_ptr<LayerQL<double>> fullLayer_01 = std::make_shared<Fullconnect_LayerQL<double>>(Fullconnect_Layer, 784, 10);
+
+
+		std::shared_ptr<LayerQL<double>> fullLayer_01 = std::make_shared<Fullconnect_LayerQL<double>>(Fullconnect_Layer, 784, 100);
 		std::shared_ptr<Inter_LayerQL<double>> inLayer_02 = inLayer_01 + fullLayer_01;
-		std::shared_ptr<LayerQL<double>> biasLayer_01 = std::make_shared<Bias_LayerQL<double>>(Bias_Layer, 1, 10);
+		std::shared_ptr<LayerQL<double>> biasLayer_01 = std::make_shared<Bias_LayerQL<double>>(Bias_Layer, 1, 100);
 		std::shared_ptr<Inter_LayerQL<double>> inLayer_03 = inLayer_02 + biasLayer_01;
 		std::shared_ptr<LayerQL<double>> sigmoidLayer_01 = std::make_shared<Sigmoid_LayerQL<double>>(Sigmoid_Layer);
 		std::shared_ptr<Inter_LayerQL<double>> inLayer_04 = inLayer_03 + sigmoidLayer_01;
+
+
+		std::shared_ptr<LayerQL<double>> fullLayer_02 = std::make_shared<Fullconnect_LayerQL<double>>(Fullconnect_Layer, 100, 10);
+		std::shared_ptr<Inter_LayerQL<double>> inLayer_05 = inLayer_04 + fullLayer_02;
+		std::shared_ptr<LayerQL<double>> biasLayer_02 = std::make_shared<Bias_LayerQL<double>>(Bias_Layer, 1, 10);
+		std::shared_ptr<Inter_LayerQL<double>> inLayer_06 = inLayer_05 + biasLayer_02;
+		std::shared_ptr<LayerQL<double>> sigmoidLayer_02 = std::make_shared<Sigmoid_LayerQL<double>>(Sigmoid_Layer);
+		std::shared_ptr<Inter_LayerQL<double>> inLayer_07 = inLayer_06 + sigmoidLayer_02;
+
+
 		std::shared_ptr<LayerQL<double>> lossLayer_01 = std::make_shared<MSE_Loss_LayerQL<double>>(MSE_Loss_Layer);
-		std::shared_ptr<Inter_LayerQL<double>> inLayer_05 = inLayer_04 + lossLayer_01;
+		std::shared_ptr<Inter_LayerQL<double>> inLayer_08 = inLayer_07 + lossLayer_01;
 
 		//	 程序加载初始时间
 		DWORD load_time = GetTickCount();
@@ -251,23 +263,37 @@ namespace tinyDNN
 			for (int j = 0; j < 55000; j++)
 			{
 				inLayer_01->forward_Matrix->setMatrixQL() = Test::input_Layer->forward_Matrix->getMatrixQL().row(j);
-				inLayer_05->backward_Matrix->setMatrixQL() = Test::output_Layer->backward_Matrix->getMatrixQL().row(j);
+				inLayer_08->backward_Matrix->setMatrixQL() = Test::output_Layer->backward_Matrix->getMatrixQL().row(j);
 
 				fullLayer_01->calForward();
 				biasLayer_01->calForward();
 				sigmoidLayer_01->calForward();
+
+				fullLayer_02->calForward();
+				biasLayer_02->calForward();
+				sigmoidLayer_02->calForward();
+
 				lossLayer_01->calForward();
+
+
 
 				//std::cout << j << std::endl;
 				//std::cout << inLayer_04->forward_Matrix->getMatrixQL() << std::endl;
 
 				lossLayer_01->calBackward();
+				sigmoidLayer_02->calBackward();
+				biasLayer_02->calBackward();
+				fullLayer_02->calBackward();
 				sigmoidLayer_01->calBackward();
 				biasLayer_01->calBackward();
 				fullLayer_01->calBackward();
 
+
 				fullLayer_01->upMatrix();
 				biasLayer_01->upMatrix();
+
+				fullLayer_02->upMatrix();
+				biasLayer_02->upMatrix();
 			}
 		}
 
@@ -275,6 +301,40 @@ namespace tinyDNN
 		DWORD star_time = GetTickCount();
 
 		std::cout << "这个程序加载时间为：" << (star_time - load_time) << "ms." << std::endl;
+
+		//std::cout << Test::input_Layer_T->forward_Matrix->getMatrixQL().row(9999) << std::endl;
+		//std::cout << Test::output_Layer_T->backward_Matrix->getMatrixQL().row(0) << std::endl;
+
+		double numTotal = 0;
+		for ( int i = 0; i <10000; i ++ )
+		{
+			inLayer_01->forward_Matrix->setMatrixQL() = Test::input_Layer_T->forward_Matrix->getMatrixQL().row(i);
+			inLayer_08->backward_Matrix->setMatrixQL() = Test::output_Layer_T->backward_Matrix->getMatrixQL().row(i);
+
+			fullLayer_01->calForward();
+			biasLayer_01->calForward();
+			sigmoidLayer_01->calForward();
+
+			fullLayer_02->calForward();
+			biasLayer_02->calForward();
+			sigmoidLayer_02->calForward();
+
+			lossLayer_01->calForward();
+
+			int maxRow, maxColumn;
+
+			lossLayer_01->left_Layer->forward_Matrix->getMatrixQL().maxCoeff(&maxRow, &maxColumn);
+
+			int maxRow_T, maxColumn_T;
+			lossLayer_01->right_Layer->backward_Matrix->getMatrixQL().maxCoeff(&maxRow_T, &maxColumn_T);
+
+			if (maxColumn == maxColumn_T)
+			{
+				numTotal++;
+			}
+
+		}
+		std::cout << numTotal / 10000.00 << std::endl;
 
 
 		//std::cout << input_Layer->forward_Matrix->getMatrixQL().row(9999) << std::endl;

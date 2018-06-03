@@ -1,4 +1,8 @@
 #pragma once
+
+#define EIGEN_USE_MKL_ALL
+#define EIGEN_VECTORIZE_SSE4_2
+
 #include "LayerQL.h"
 #include "Fullconnect_LayerQL.h"
 #include "Bias_LayerQL.h"
