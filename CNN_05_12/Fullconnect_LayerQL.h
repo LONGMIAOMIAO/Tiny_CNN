@@ -34,7 +34,7 @@ namespace tinyDNN
 
 		std::random_device rd;
 		std::mt19937 gen(rd());
-		std::normal_distribution<double> normal(0, 0.1);
+		std::normal_distribution<Dtype> normal(0, 0.1);
 		for (int i = 0; i < rowNum; i++)
 		{
 			for (int j = 0; j < colNum; j++)
@@ -45,7 +45,6 @@ namespace tinyDNN
 				this->w_MatrixQL->setMatrixQL()(i, j) = normal(gen);
 			}
 		}
-
 	}
 
 	template <typename Dtype>

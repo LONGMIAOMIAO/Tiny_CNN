@@ -43,6 +43,8 @@ namespace tinyDNN
 		operRight->left_Layer = operLeft;
 		operRight->right_Layer = test;
 
+		NetQL<Dtype>::layerQLVector.push_back(operRight);
+
 		return test;
 	}
 	//*****************************************************************************************

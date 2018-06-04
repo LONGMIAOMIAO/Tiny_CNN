@@ -11,6 +11,7 @@
 #include "MSE_Loss_LayerQL.h"
 #include "LoadCSV.h"
 #include <winsock.h>
+#include "NetQL.h"
 
 namespace tinyDNN
 {
@@ -41,6 +42,8 @@ namespace tinyDNN
 		void Operator_Test();
 
 		void Mnist_Test();
+
+		void Mnist_Test_02();
 
 	public:
 		static std::shared_ptr<Inter_LayerQL<double>> input_Layer;

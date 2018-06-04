@@ -6,7 +6,7 @@ namespace tinyDNN
 	class Bias_LayerQL : public LayerQL<Dtype>
 	{
 	public:
-		explicit Bias_LayerQL( LayerType type, int rowNum, int colNum);
+		explicit Bias_LayerQL( LayerType type, int rowNum, int colNum, Dtype ranNum);
 		~Bias_LayerQL() override final;
 
 		void calForward() const override final;
@@ -18,12 +18,13 @@ namespace tinyDNN
 	};
 	//*******************************************************************************************************************************
 	template <typename Dtype>
-	Bias_LayerQL<Dtype>::Bias_LayerQL(LayerType type, int rowNum, int colNum) : LayerQL(type)
+	Bias_LayerQL<Dtype>::Bias_LayerQL(LayerType type, int rowNum, int colNum, Dtype ranNum) : LayerQL(type)
 	{
 		std::cout << "Bias_LayerQL Start!" << std::endl;
 		this->b_MatrixQL = std::make_unique<MatrixQL<Dtype>>( rowNum, colNum);
 		//这里后期需要改
-		this->b_MatrixQL->setMatrixQL().setConstant(0.1);
+		this->b_MatrixQL->setMatrixQL().setConstant(ranNum);
+		//this->b_MatrixQL->setMatrixQL().setZero();
 	}
 
 	template <typename Dtype>
