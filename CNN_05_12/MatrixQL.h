@@ -32,7 +32,8 @@ namespace tinyDNN {
 	template <typename Dtype>
 	MatrixQL<Dtype>::MatrixQL(int rowNum, int colNum) : rowNum(rowNum), colNum(colNum)
 	{
-		std::cout << "Matrix Start!" << std::endl;
+		//std::cout << "Matrix Start!" << std::endl;
+		
 		//	将声明的底层库重新设置大小
 		this->matrixData.resize(this->rowNum, this->colNum);
 	}
@@ -41,7 +42,7 @@ namespace tinyDNN {
 	template <typename Dtype>
 	MatrixQL<Dtype>::~MatrixQL()
 	{
-		std::cout << "Matrix Over!" << std::endl;
+		//std::cout << "Matrix Over!" << std::endl;
 	}
 
 	//	取出底层数据库

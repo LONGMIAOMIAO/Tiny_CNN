@@ -14,6 +14,7 @@ namespace tinyDNN
 		void calBackward() override final;
 
 		void upMatrix() override final {};
+		void upMatrix_batch() override final {};
 	};
 
 	template <typename Dtype>

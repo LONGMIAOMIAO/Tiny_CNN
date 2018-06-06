@@ -26,12 +26,18 @@ namespace tinyDNN
 		void Fullconnect_Layer_Backward_Test();
 
 		void Fullconnect_Layer_Update_Test();
+
+		void Fullconnect_Layer_Update_Batch_Test();
+
 		
 		void Bias_Layer_Forward_Test();
 
 		void Bias_Layer_Backward_Test();
 
 		void Bias_Layer_Update_Test();
+
+		void Bias_Layer_Update_Batch_Test();
+
 
 		void Sigmoid_LayerQL_Forward_Test();
 

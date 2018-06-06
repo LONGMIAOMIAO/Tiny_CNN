@@ -24,6 +24,8 @@ namespace tinyDNN
 		virtual void calBackward() = 0;
 		virtual void upMatrix() = 0;
 		
+		virtual void upMatrix_batch() = 0;
+		
 		friend class Test;
 		template <typename Dtype> 
 		friend std::shared_ptr<Inter_LayerQL<Dtype>> operator+( std::shared_ptr<Inter_LayerQL<Dtype>>& operLeft,  std::shared_ptr<LayerQL<Dtype>>& operRight);
