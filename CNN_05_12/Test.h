@@ -2,7 +2,7 @@
 
 #define EIGEN_USE_MKL_ALL
 #define EIGEN_VECTORIZE_SSE4_2
-
+//基于SSE_4加速
 #include "LayerQL.h"
 #include "Fullconnect_LayerQL.h"
 #include "Bias_LayerQL.h"
@@ -50,6 +50,8 @@ namespace tinyDNN
 		void Mnist_Test();
 
 		void Mnist_Test_02();
+
+		void Mnist_Test_03();
 
 	public:
 		static std::shared_ptr<Inter_LayerQL<double>> input_Layer;

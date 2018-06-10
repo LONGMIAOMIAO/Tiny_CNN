@@ -15,14 +15,13 @@ namespace tinyDNN
 
 		void upMatrix() override final {};
 
-		void upMatrix_batch() override final {};
+		void upMatrix_batch(Dtype upRate) override final {};
 	};
 
 	template <typename Dtype>
 	MSE_Loss_LayerQL<Dtype>::MSE_Loss_LayerQL(LayerType type) : LayerQL(type)
 	{
 		std::cout << "MSE_Loss_LayerQL Start!" << std::endl;
-
 	}
 
 	template <typename Dtype>
@@ -32,10 +31,7 @@ namespace tinyDNN
 	}
 
 	template <typename Dtype>
-	void MSE_Loss_LayerQL<Dtype>::calForward() const
-	{
-
-	}
+	void MSE_Loss_LayerQL<Dtype>::calForward() const{}
 
 	template <typename Dtype>
 	void MSE_Loss_LayerQL<Dtype>::calBackward()
@@ -43,9 +39,7 @@ namespace tinyDNN
 		//std::cout << this->left_Layer->forward_Matrix->getMatrixQL() << std::endl;
 		//std::cout << this->right_Layer->backward_Matrix->getMatrixQL() << std::endl;
 
+		//反向传播，用输入值-lable值
 		this->left_Layer->backward_Matrix->setMatrixQL() = this->left_Layer->forward_Matrix->getMatrixQL() - this->right_Layer->backward_Matrix->getMatrixQL();
-
 	}
-
-
 }

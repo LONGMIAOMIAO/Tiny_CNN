@@ -5,7 +5,6 @@
 #include <vector>  
 #include <fstream>  
 #include <sstream>  
-//#include "MatrixWAndB.h"
 #include "Test.h"
 
 namespace tinyDNN
@@ -15,9 +14,9 @@ namespace tinyDNN
 	public:
 		LoadCSV();
 		~LoadCSV();
-
+		//装载训练集
 		static void loadCSVTrain();
+		//装载测试集
 		static void loadCSVTest();
-
 	};
 }

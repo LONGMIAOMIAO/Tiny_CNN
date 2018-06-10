@@ -12,6 +12,7 @@ namespace tinyDNN
 		~NetQL();
 
 	public:
+		//用来装载做好的每层Layer
 		static std::vector<std::shared_ptr<LayerQL<Dtype>>> layerQLVector;
 	};
 

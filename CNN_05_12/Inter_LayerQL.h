@@ -29,6 +29,8 @@ namespace tinyDNN
 	Inter_LayerQL<Dtype>::Inter_LayerQL(int rowNum = 0, int colNum = 0)
 	{
 		std::cout << "Inter_Layer Start!" << std::endl;
+
+		//中间层的前向层和反向层
 		this->forward_Matrix = std::make_unique<MatrixQL<Dtype>>(rowNum, colNum);
 		this->backward_Matrix = std::make_unique<MatrixQL<Dtype>>(rowNum, colNum);
 	}
