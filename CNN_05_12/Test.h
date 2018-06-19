@@ -12,6 +12,7 @@
 #include "LoadCSV.h"
 #include <winsock.h>
 #include "NetQL.h"
+#include "PooLayerQL.h"
 
 namespace tinyDNN
 {
@@ -47,17 +48,14 @@ namespace tinyDNN
 
 		void Operator_Test();
 
+
 		void Mnist_Test();
 
 		void Mnist_Test_02();
 
 		void Mnist_Test_03();
 
-	public:
-		static std::shared_ptr<Inter_LayerQL<double>> input_Layer;
-		static std::shared_ptr<Inter_LayerQL<double>> output_Layer;
-
-		static std::shared_ptr<Inter_LayerQL<double>> input_Layer_T;
-		static std::shared_ptr<Inter_LayerQL<double>> output_Layer_T;
+		
+		void Mnist_Test_Conv();
 	};
 }

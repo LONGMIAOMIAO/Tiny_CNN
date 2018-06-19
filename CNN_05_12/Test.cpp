@@ -2,12 +2,12 @@
 
 namespace tinyDNN
 {
-	//加载MNIST数据集，训练集，55000个
-	std::shared_ptr<Inter_LayerQL<double>> Test::input_Layer = std::make_shared<Inter_LayerQL<double>>(55000, 784);
-	std::shared_ptr<Inter_LayerQL<double>> Test::output_Layer = std::make_shared<Inter_LayerQL<double>>(55000, 10);
-	//加载MNIST数据集，测试集，10000个
-	std::shared_ptr<Inter_LayerQL<double>> Test::input_Layer_T = std::make_shared<Inter_LayerQL<double>>(10000, 784);
-	std::shared_ptr<Inter_LayerQL<double>> Test::output_Layer_T = std::make_shared<Inter_LayerQL<double>>(10000, 10);
+	////加载MNIST数据集，训练集，55000个
+	//std::shared_ptr<Inter_LayerQL<double>> Test::input_Layer = std::make_shared<Inter_LayerQL<double>>(55000, 784);
+	//std::shared_ptr<Inter_LayerQL<double>> Test::output_Layer = std::make_shared<Inter_LayerQL<double>>(55000, 10);
+	////加载MNIST数据集，测试集，10000个
+	//std::shared_ptr<Inter_LayerQL<double>> Test::input_Layer_T = std::make_shared<Inter_LayerQL<double>>(10000, 784);
+	//std::shared_ptr<Inter_LayerQL<double>> Test::output_Layer_T = std::make_shared<Inter_LayerQL<double>>(10000, 10);
 
 	Test::Test()
 	{
@@ -50,11 +50,25 @@ namespace tinyDNN
 
 		//======================================================================================
 		////测试SGD
-		//this->Mnist_Test();
+		this->Mnist_Test();
 		////测试批量下降 100一组
 		//this->Mnist_Test_02();
 		//测试批量下架，10一组
-		this->Mnist_Test_03();
+		//this->Mnist_Test_03();
+
+		//======================================================================================
+		////测试加载卷积二维图像,训练集
+		//LoadCSV::loadCSVTrain();
+		//LoadCSV::loadCSV_Train_Vector();
+		////测试加载卷积二维图像，测试集
+		//LoadCSV::loadCSVTest();
+		//LoadCSV::loadCSV_Test_Vector();
+		
+		//======================================================================================
+		////测试Mnist卷积计算
+		//this->Mnist_Test_Conv();
+
+
 	}
 
 	Test::~Test(){}
@@ -284,11 +298,7 @@ namespace tinyDNN
 	//============================================================================
 
 	//测试操作运算符
-	void Test::Operator_Test()
-	{
-
-
-	}
+	void Test::Operator_Test(){}
 
 	//============================================================================
 	
@@ -339,9 +349,9 @@ namespace tinyDNN
 			for (int j = 0; j < 55000; j++)
 			{
 				//按次序将数据加载进输入层
-				inLayer_01->forward_Matrix->setMatrixQL() = Test::input_Layer->forward_Matrix->getMatrixQL().row(j);
+				inLayer_01->forward_Matrix->setMatrixQL() = LoadCSV::input_Layer->forward_Matrix->getMatrixQL().row(j);
 				//按次序将数据加载进输出层
-				inLayer_08->backward_Matrix->setMatrixQL() = Test::output_Layer->backward_Matrix->getMatrixQL().row(j);
+				inLayer_08->backward_Matrix->setMatrixQL() = LoadCSV::output_Layer->backward_Matrix->getMatrixQL().row(j);
 				//从头开始进行前向传播
 				for (auto k = NetQL<double>::layerQLVector.begin(); k != NetQL<double>::layerQLVector.end(); k++)
 				{
@@ -362,8 +372,8 @@ namespace tinyDNN
 		for ( int i = 0; i <10000; i ++ )
 		{
 			//加载输入层和输出层
-			inLayer_01->forward_Matrix->setMatrixQL() = Test::input_Layer_T->forward_Matrix->getMatrixQL().row(i);
-			inLayer_08->backward_Matrix->setMatrixQL() = Test::output_Layer_T->backward_Matrix->getMatrixQL().row(i);
+			inLayer_01->forward_Matrix->setMatrixQL() = LoadCSV::input_Layer_T->forward_Matrix->getMatrixQL().row(i);
+			inLayer_08->backward_Matrix->setMatrixQL() = LoadCSV::output_Layer_T->backward_Matrix->getMatrixQL().row(i);
 			//前向传播，计算结果
 			for (auto k = NetQL<double>::layerQLVector.begin(); k != NetQL<double>::layerQLVector.end(); k++)
 			{
@@ -427,8 +437,8 @@ namespace tinyDNN
 			for (int j = 0; j < 550; j++)
 			{
 				//每次取100个数据加载
-				inLayer_01->forward_Matrix->setMatrixQL() = Test::input_Layer->forward_Matrix->getMatrixQL().block(j*100, 0, 100, 784);
-				inLayer_08->backward_Matrix->setMatrixQL() = Test::output_Layer->backward_Matrix->getMatrixQL().block(j * 100, 0, 100, 10);
+				inLayer_01->forward_Matrix->setMatrixQL() = LoadCSV::input_Layer->forward_Matrix->getMatrixQL().block(j*100, 0, 100, 784);
+				inLayer_08->backward_Matrix->setMatrixQL() = LoadCSV::output_Layer->backward_Matrix->getMatrixQL().block(j * 100, 0, 100, 10);
 				//前向传播
 				for (auto k = NetQL<double>::layerQLVector.begin(); k != NetQL<double>::layerQLVector.end(); k++)
 				{
@@ -447,8 +457,8 @@ namespace tinyDNN
 		for (int i = 0; i < 10000; i++)
 		{
 			//进行测试，每次测试一个
-			inLayer_01->forward_Matrix->setMatrixQL() = Test::input_Layer_T->forward_Matrix->getMatrixQL().row(i);
-			inLayer_08->backward_Matrix->setMatrixQL() = Test::output_Layer_T->backward_Matrix->getMatrixQL().row(i);
+			inLayer_01->forward_Matrix->setMatrixQL() = LoadCSV::input_Layer_T->forward_Matrix->getMatrixQL().row(i);
+			inLayer_08->backward_Matrix->setMatrixQL() = LoadCSV::output_Layer_T->backward_Matrix->getMatrixQL().row(i);
 			//前向传播
 			for (auto k = NetQL<double>::layerQLVector.begin(); k != NetQL<double>::layerQLVector.end(); k++)
 			{
@@ -502,13 +512,13 @@ namespace tinyDNN
 		//程序加载初始时间
 		DWORD load_time = GetTickCount();
 		//训练开始
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 2; i++)
 		{
 			for (int j = 0; j < 5500; j++)
 			{
 				//每次训练10个
-				inLayer_01->forward_Matrix->setMatrixQL() = Test::input_Layer->forward_Matrix->getMatrixQL().block(j * 10, 0, 10, 784);
-				inLayer_08->backward_Matrix->setMatrixQL() = Test::output_Layer->backward_Matrix->getMatrixQL().block(j * 10, 0, 10, 10);
+				inLayer_01->forward_Matrix->setMatrixQL() = LoadCSV::input_Layer->forward_Matrix->getMatrixQL().block(j * 10, 0, 10, 784);
+				inLayer_08->backward_Matrix->setMatrixQL() = LoadCSV::output_Layer->backward_Matrix->getMatrixQL().block(j * 10, 0, 10, 10);
 				//前向传播
 				for (auto k = NetQL<double>::layerQLVector.begin(); k != NetQL<double>::layerQLVector.end(); k++)
 				{
@@ -527,8 +537,8 @@ namespace tinyDNN
 		for (int i = 0; i < 10000; i++)
 		{
 			//测试开始
-			inLayer_01->forward_Matrix->setMatrixQL() = Test::input_Layer_T->forward_Matrix->getMatrixQL().row(i);
-			inLayer_08->backward_Matrix->setMatrixQL() = Test::output_Layer_T->backward_Matrix->getMatrixQL().row(i);
+			inLayer_01->forward_Matrix->setMatrixQL() = LoadCSV::input_Layer_T->forward_Matrix->getMatrixQL().row(i);
+			inLayer_08->backward_Matrix->setMatrixQL() = LoadCSV::output_Layer_T->backward_Matrix->getMatrixQL().row(i);
 			//前向传播
 			for (auto k = NetQL<double>::layerQLVector.begin(); k != NetQL<double>::layerQLVector.end(); k++)
 			{
@@ -552,5 +562,67 @@ namespace tinyDNN
 		DWORD star_time = GetTickCount();
 		//输出运行时间
 		std::cout << "这个程序加载时间为：" << (star_time - load_time) << "ms." << std::endl;
+	}
+
+
+
+	void Test::Mnist_Test_Conv()
+	{
+		//测试加载卷积二维图像,训练集
+		LoadCSV::loadCSVTrain();
+		LoadCSV::loadCSV_Train_Vector();
+
+		//制作输入层，1行784列
+		std::shared_ptr<Inter_LayerQL<double>> inLayer_01 = std::make_shared<Inter_LayerQL<double>>(28, 28);
+
+		for (int i = 0; i < 1; i++)
+		{
+			for (int j = 999; j < 1000; j++)
+			{
+				inLayer_01->forward_Matrix = LoadCSV::conv_Input_Vector[j];
+
+				std::cout << (inLayer_01->forward_Matrix->getMatrixQL()*9).cast<int>() << std::endl;
+			}
+		}
+
+		std::shared_ptr<LayerQL<double>> poolLayer_01 = std::make_shared<PooLayerQL<double>>(Pool_Layer,14,14);
+		//这里可以尝试重载赋值运算符
+		std::shared_ptr<Inter_LayerQL<double>> out_01 = inLayer_01 + poolLayer_01;
+		poolLayer_01->right_Layer->forward_Matrix->setMatrixQL().resize(14, 14);
+
+		poolLayer_01->calForward();
+
+		std::cout << (out_01->forward_Matrix->getMatrixQL() * 9).cast<int>() << std::endl;
+
+		//============================================================================================================
+
+		poolLayer_01->left_Layer->backward_Matrix->setMatrixQL().resize(28, 28);
+
+		poolLayer_01->right_Layer->backward_Matrix = poolLayer_01->right_Layer->forward_Matrix;
+
+		poolLayer_01->calBackward();
+
+		std::cout << (inLayer_01->backward_Matrix->getMatrixQL() * 9).cast<int>() << std::endl;
+
+		//============================================================================================================
+
+		std::cout << "=======================================================================================" << std::endl;
+		//测试加载卷积二维图像,训练集
+		LoadCSV::loadCSVTest();
+		LoadCSV::loadCSV_Test_Vector();
+
+		//制作输入层，1行784列
+		std::shared_ptr<Inter_LayerQL<double>> inLayer_01_T = std::make_shared<Inter_LayerQL<double>>(28, 28);
+
+		for (int i = 0; i < 1; i++)
+		{
+			for (int j = 999; j < 1000; j++)
+			{
+				inLayer_01_T->forward_Matrix = LoadCSV::conv_Input_Vector_T[j];
+
+				std::cout << (inLayer_01_T->forward_Matrix->getMatrixQL() * 9).cast<int>() << std::endl;
+			}
+		}
+		//===========================================================================================================
 	}
 }

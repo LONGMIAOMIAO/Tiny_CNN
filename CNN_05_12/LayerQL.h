@@ -11,6 +11,8 @@ namespace tinyDNN
 		Bias_Layer = 2,
 		Sigmoid_Layer = 3,
 		MSE_Loss_Layer = 4,
+		Pool_Layer = 5,
+		Conv_Layer = 6
 	};
 
 	template <typename Dtype>
@@ -41,7 +43,7 @@ namespace tinyDNN
 	std::shared_ptr<Inter_LayerQL<Dtype>> operator+( std::shared_ptr<Inter_LayerQL<Dtype>>& operLeft,  std::shared_ptr<LayerQL<Dtype>>& operRight)
 	{
 		std::shared_ptr<Inter_LayerQL<Dtype>> test = std::make_shared<Inter_LayerQL<Dtype>>();
-		
+
 		operRight->left_Layer = operLeft;
 		operRight->right_Layer = test;
 

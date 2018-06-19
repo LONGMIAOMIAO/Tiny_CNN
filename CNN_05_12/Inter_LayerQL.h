@@ -2,6 +2,7 @@
 #include "MatrixQL.h"
 #include "memory"
 #include <iostream>
+#include <vector>
 
 namespace tinyDNN
 {
@@ -21,8 +22,11 @@ namespace tinyDNN
 		~Inter_LayerQL();
 
 	public:
-		std::unique_ptr<MatrixQL<Dtype>> forward_Matrix;
-		std::unique_ptr<MatrixQL<Dtype>> backward_Matrix;
+		std::shared_ptr<MatrixQL<Dtype>> forward_Matrix;
+		std::shared_ptr<MatrixQL<Dtype>> backward_Matrix;
+
+		std::vector<std::shared_ptr<MatrixQL<Dtype>>> forward_Matrix_Vector;
+		std::vector<std::shared_ptr<MatrixQL<Dtype>>> backward_Matrix_Vector;
 	};
 
 	template <typename Dtype>
