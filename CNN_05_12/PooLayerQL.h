@@ -16,14 +16,12 @@ namespace tinyDNN
 		void calForward() const override final;
 		void calForward_MaxNum() const;
 		void calForward_Average() const;
-
-
 		void calForward_Vector_Average() const;
 
 
 		void calBackward() override final;
-
 		void calBackward_Average();
+		void calBackward_Vector_Average();
 
 
 		void upMatrix() override final {};

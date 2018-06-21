@@ -6,11 +6,13 @@
 #include "Bias_LayerQL.h"
 #include "Test.h"
 #include "Conv_Test.h"
+#include "Pool_Test.h"
 using namespace tinyDNN;
 int main()
 {
 	//Test test;
-	Conv_Test test;
-	
+	//Conv_Test test;
+	Pool_Test pool_Test;
+
 	return 0;
 }

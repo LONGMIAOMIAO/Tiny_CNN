@@ -93,6 +93,7 @@ namespace tinyDNN
 
 		void calForward() const override final
 		{
+			//this->right_Layer->forward_Matrix_Vector.clear();
 			for ( int i = 0; i < kernelNum; i++ )
 			{
 				std::shared_ptr<MatrixQL<Dtype>> outMatrix = std::make_shared<MatrixQL<Dtype>>(rowNum, colNum);
@@ -105,7 +106,6 @@ namespace tinyDNN
 
 
 		void calBackward() override final {};
-
 
 		void upMatrix() override final {};
 		void upMatrix_batch(Dtype upRate) override final {};
