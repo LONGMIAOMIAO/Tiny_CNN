@@ -33,7 +33,7 @@ namespace tinyDNN
 	template <typename Dtype>
 	void PooLayerQL<Dtype>::calForward_Vector_Average() const
 	{	
-		//this->right_Layer->forward_Matrix_Vector.clear();
+		this->right_Layer->forward_Matrix_Vector.clear();
 		for ( auto k = this->left_Layer->forward_Matrix_Vector.begin(); k != this->left_Layer->forward_Matrix_Vector.end(); k++ )
 		{
 			std::shared_ptr<MatrixQL<Dtype>>& inMatrix = *k;
@@ -102,7 +102,7 @@ namespace tinyDNN
 	template <typename Dtype>
 	void PooLayerQL<Dtype>::calBackward_Vector_Average()
 	{
-		//this->left_Layer->backward_Matrix_Vector.clear();
+		this->left_Layer->backward_Matrix_Vector.clear();
 		for ( auto k = this->right_Layer->backward_Matrix_Vector.begin(); k != this->right_Layer->backward_Matrix_Vector.end(); k++ )
 		{
 			std::shared_ptr<MatrixQL<Dtype>>& inMatrix_Back = *k;

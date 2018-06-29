@@ -48,13 +48,13 @@ namespace tinyDNN {
 	//	取出底层数据库
 	//	注意：这里返回模板类内定义类型的时候，需要加typeName
 	template <typename Dtype>
-	const typename MatrixQL<Dtype>::MatrixData& MatrixQL<Dtype>::getMatrixQL() const
+	inline const typename MatrixQL<Dtype>::MatrixData& MatrixQL<Dtype>::getMatrixQL() const
 	{
 		return this->matrixData;
 	}
 
 	template <typename Dtype>
-	typename MatrixQL<Dtype>::MatrixData& MatrixQL<Dtype>::setMatrixQL()
+	inline typename MatrixQL<Dtype>::MatrixData& MatrixQL<Dtype>::setMatrixQL()
 	{
 		return this->matrixData;
 	}

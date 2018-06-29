@@ -12,7 +12,8 @@ namespace tinyDNN
 		Sigmoid_Layer = 3,
 		MSE_Loss_Layer = 4,
 		Pool_Layer = 5,
-		Conv_Layer = 6
+		Conv_Layer = 6,
+		Padding_Layer = 7,
 	};
 
 	template <typename Dtype>

@@ -11,8 +11,8 @@ using namespace tinyDNN;
 int main()
 {
 	//Test test;
-	//Conv_Test test;
-	Pool_Test pool_Test;
+	Conv_Test test;
+	//Pool_Test pool_Test;
 
 	return 0;
 }
