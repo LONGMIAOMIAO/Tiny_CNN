@@ -315,9 +315,11 @@ namespace tinyDNN
 		//合并前两层
 		std::shared_ptr<Inter_LayerQL<double>> inLayer_02 = inLayer_01 + fullLayer_01;
 		//制作第一个Bias层，1行100列
+
 		std::shared_ptr<LayerQL<double>> biasLayer_01 = std::make_shared<Bias_LayerQL<double>>(Bias_Layer, 1, 100, 0.1);
 		//合并前两层
 		std::shared_ptr<Inter_LayerQL<double>> inLayer_03 = inLayer_02 + biasLayer_01;
+
 		//制作第一个sigmoid层
 		std::shared_ptr<LayerQL<double>> sigmoidLayer_01 = std::make_shared<Sigmoid_LayerQL<double>>(Sigmoid_Layer);
 		//合并前两层

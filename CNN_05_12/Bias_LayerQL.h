@@ -9,8 +9,8 @@ namespace tinyDNN
 		explicit Bias_LayerQL( LayerType type, int rowNum, int colNum, Dtype ranNum);
 		~Bias_LayerQL() override final;
 
-		void calForward() const override final;
-		void calBackward() override final;
+		void calForward(int type = 0) const override final;
+		void calBackward(int type = 0) override final;
 		void upMatrix() override final;
 		void upMatrix_batch(Dtype upRate) override final;
 	protected:
@@ -34,7 +34,7 @@ namespace tinyDNN
 	}
 
 	template <typename Dtype>
-	void Bias_LayerQL<Dtype>::calForward() const
+	void Bias_LayerQL<Dtype>::calForward(int type = 0) const
 	{
 		//std::cout << this->b_MatrixQL->getMatrixQL() << std::endl;
 
@@ -53,7 +53,7 @@ namespace tinyDNN
 	}
 
 	template <typename Dtype>
-	void Bias_LayerQL<Dtype>::calBackward()
+	void Bias_LayerQL<Dtype>::calBackward(int type = 0)
 	{
 		//std::cout << this->b_MatrixQL->getMatrixQL() << std::endl;
 

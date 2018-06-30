@@ -16,7 +16,7 @@ namespace tinyDNN
 	}
 
 	template <typename Dtype>
-	void Padding_LayerQL<Dtype>::calForward() const
+	void Padding_LayerQL<Dtype>::calForward(int type = 0) const
 	{
 		this->calForward_Vector();
 	}
@@ -38,7 +38,7 @@ namespace tinyDNN
 
 
 	template <typename Dtype>
-	void Padding_LayerQL<Dtype>::calBackward()
+	void Padding_LayerQL<Dtype>::calBackward(int type = 0)
 	{
 		this->calBackward_Vector();
 	}

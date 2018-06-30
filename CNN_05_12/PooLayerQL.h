@@ -13,13 +13,13 @@ namespace tinyDNN
 		explicit PooLayerQL(LayerType type, int rowNum, int colNum);
 		~PooLayerQL() override final;
 
-		void calForward() const override final;
+		void calForward(int type = 0) const override final;
 		void calForward_MaxNum() const;
 		void calForward_Average() const;
 		void calForward_Vector_Average() const;
 
 
-		void calBackward() override final;
+		void calBackward(int type = 0) override final;
 		void calBackward_Average();
 		void calBackward_Vector_Average();
 

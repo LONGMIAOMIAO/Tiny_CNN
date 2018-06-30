@@ -10,8 +10,8 @@ namespace tinyDNN
 		explicit MSE_Loss_LayerQL(LayerType type);
 		~MSE_Loss_LayerQL() override final;
 
-		void calForward() const override final;
-		void calBackward() override final;
+		void calForward(int type = 0) const override final;
+		void calBackward(int type = 0) override final;
 
 		void upMatrix() override final {};
 
@@ -31,10 +31,10 @@ namespace tinyDNN
 	}
 
 	template <typename Dtype>
-	void MSE_Loss_LayerQL<Dtype>::calForward() const{}
+	void MSE_Loss_LayerQL<Dtype>::calForward(int type = 0) const{}
 
 	template <typename Dtype>
-	void MSE_Loss_LayerQL<Dtype>::calBackward()
+	void MSE_Loss_LayerQL<Dtype>::calBackward(int type = 0)
 	{
 		//std::cout << this->left_Layer->forward_Matrix->getMatrixQL() << std::endl;
 		//std::cout << this->right_Layer->backward_Matrix->getMatrixQL() << std::endl;

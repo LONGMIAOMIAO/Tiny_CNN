@@ -14,13 +14,13 @@ namespace tinyDNN
 			{
 				std::shared_ptr<MatrixQL<Dtype>> oneSlice_Kernel = std::make_shared<MatrixQL<Dtype>>(kernelWidth, kernelWidth);
 				//oneSlice_Kernel->setMatrixQL().setOnes();
-				double startNum = 0.1;
+				double startNum = 0.1 * (i + 1) ;
 				for ( int p = 0; p < kernelWidth; p++ )
 				{
 					for ( int q = 0; q < kernelWidth; q++ )
 					{
 						oneSlice_Kernel->setMatrixQL()(p, q) = startNum;
-						startNum = startNum + 0.1;
+						startNum = startNum + 0.1 * (i + 1);
 					}
 				}
 
@@ -105,7 +105,7 @@ namespace tinyDNN
 		}
 
 
-		void calForward() const override final
+		void calForward(int type = 0) const override final
 		{
 			//每次向前传播先清理掉集合中的内容再重新插入
 			this->right_Layer->forward_Matrix_Vector.clear();
@@ -121,7 +121,7 @@ namespace tinyDNN
 		}
 
 
-		void calBackward() override final 
+		void calBackward(int type = 0) override final
 		{
 			this->left_Layer->backward_Matrix_Vector.clear();
 
@@ -172,17 +172,19 @@ namespace tinyDNN
 						for (int q = 0; q < kernelWidth; q++)
 						{
 							upMatrix->setMatrixQL()(p, q) = (paddingMatrix->getMatrixQL().block(p, q, rowNum, colNum).array() *
-								this->right_Layer->forward_Matrix_Vector[i]->getMatrixQL().array()).sum();
+								this->right_Layer->backward_Matrix_Vector[i]->getMatrixQL().array()).sum();
 								//conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->getMatrixQL().reverse().array()).sum();
 
 						}
 					}
-
+					std::cout << "UP值++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+					std::cout << upMatrix->getMatrixQL() << std::endl;
+					std::cout << "减之前++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
 					std::cout << this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->getMatrixQL() << std::endl;
 					//*********************************************
 					this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->setMatrixQL() = this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->getMatrixQL() - upMatrix->getMatrixQL();
 					//*********************************************
-					std::cout << "ccccccccccccccccccccccccccccccompareeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" << std::endl;
+					std::cout << "减之后++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
 					std::cout << this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->getMatrixQL() << std::endl;
 				}
 

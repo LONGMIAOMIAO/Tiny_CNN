@@ -12,8 +12,8 @@ namespace tinyDNN
 		explicit Fullconnect_LayerQL( LayerType type, int rowNum, int colNum);
 		~Fullconnect_LayerQL() override final;
 
-		void calForward() const override final;
-		void calBackward() override final;
+		void calForward(int type = 0) const override final;
+		void calBackward(int type = 0) override final;
 
 		void upMatrix() override final;
 		void upMatrix_batch(Dtype upRate) override final;
@@ -58,7 +58,7 @@ namespace tinyDNN
 	}
 
 	template <typename Dtype>
-	void Fullconnect_LayerQL<Dtype>::calForward() const
+	void Fullconnect_LayerQL<Dtype>::calForward(int type = 0) const
 	{
 		//std::cout << this->w_MatrixQL->getMatrixQL() << std::endl;
 
@@ -68,7 +68,7 @@ namespace tinyDNN
 	}
 
 	template <typename Dtype>
-	void Fullconnect_LayerQL<Dtype>::calBackward()
+	void Fullconnect_LayerQL<Dtype>::calBackward(int type = 0)
 	{
 		//std::cout << this->w_MatrixQL->getMatrixQL() << std::endl;
 

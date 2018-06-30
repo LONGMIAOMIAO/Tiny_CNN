@@ -5,8 +5,8 @@
 #include "Inter_LayerQL.h"
 namespace tinyDNN 
 {
-	enum LayerType 
-	{	
+	enum LayerType
+	{
 		Fullconnect_Layer = 1,
 		Bias_Layer = 2,
 		Sigmoid_Layer = 3,
@@ -14,6 +14,7 @@ namespace tinyDNN
 		Pool_Layer = 5,
 		Conv_Layer = 6,
 		Padding_Layer = 7,
+		Dim_Reduce_Layer = 8,
 	};
 
 	template <typename Dtype>
@@ -23,8 +24,8 @@ namespace tinyDNN
 		explicit LayerQL( LayerType type ) ;
 		virtual ~LayerQL();
 
-		virtual void calForward() const = 0;
-		virtual void calBackward() = 0;
+		virtual void calForward(int type = 0) const = 0;
+		virtual void calBackward(int type = 0) = 0;
 		virtual void upMatrix() = 0;
 		
 		virtual void upMatrix_batch(Dtype upRate) = 0;

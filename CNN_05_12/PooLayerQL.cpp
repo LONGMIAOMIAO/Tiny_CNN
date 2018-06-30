@@ -17,7 +17,7 @@ namespace tinyDNN
 	}
 	//向前传播
 	template <typename Dtype>
-	void PooLayerQL<Dtype>::calForward() const
+	void PooLayerQL<Dtype>::calForward(int type = 0) const
 	{
 		this->calForward_Vector_Average();
 		//this->calForward_MaxNum();
@@ -79,7 +79,7 @@ namespace tinyDNN
 	//========================================================================================================================
 	//反向传播
 	template <typename Dtype>
-	void PooLayerQL<Dtype>::calBackward()
+	void PooLayerQL<Dtype>::calBackward(int type = 0)
 	{
 		//this->calBackward_Average();
 		this->calBackward_Vector_Average();
