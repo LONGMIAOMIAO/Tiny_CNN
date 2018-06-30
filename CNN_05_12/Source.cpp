@@ -9,18 +9,27 @@
 #include "Pool_Test.h"
 #include "Sigmoid_Test.h"
 #include "Dim_Reduce_Test.h"
+#include "LoadCSV_Test.h"
+#include "Mnist_Conv_Test.h"
 using namespace tinyDNN;
 int main()
 {
 	//Test test;
 	//¾í»ı²ã
 	//Conv_Test test;
-	Pool_Test pool_Test;
+	//Pool_Test pool_Test;
 	
 	//Sigmoid²ã
 	//Sigmoid_Test test;
 	
 	//½µÎ¬²ã
 	//Dim_Reduce_Test test;
+
+	//¼ÓÔØÊı¾İ²ã
+	//LoadCSV_Test test;
+
+	//²âÊÔ¾í»ıÍøÂç²ã
+
+	Mnist_Conv_Test test;
 	return 0;
 }

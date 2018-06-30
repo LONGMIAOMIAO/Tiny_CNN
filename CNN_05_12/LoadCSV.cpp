@@ -117,7 +117,9 @@ namespace tinyDNN
 	{
 		for ( int i= 0 ; i <55000; i++ )
 		{
-			Eigen::Map<MatrixD> mapMatrix( ( (MatrixD)(LoadCSV::input_Layer->forward_Matrix->getMatrixQL().row(i)) ).data(), 28, 28);
+			MatrixD trans_01 = static_cast<MatrixD>( LoadCSV::input_Layer->forward_Matrix->getMatrixQL().row(i) );
+
+			Eigen::Map<MatrixD> mapMatrix(trans_01.data(), 28, 28);
 
 			std::shared_ptr<MatrixQL<double>> convMatrix = std::make_shared<MatrixQL<double>>(28,28);
 			convMatrix->setMatrixQL() = mapMatrix;
@@ -125,7 +127,7 @@ namespace tinyDNN
 			conv_Input_Vector.push_back(convMatrix);
 		}
 
-		std::cout << ((conv_Input_Vector[999])->getMatrixQL() * 9 ).cast<int>() << std::endl;
+		//std::cout << ((conv_Input_Vector[999])->getMatrixQL() * 9 ).cast<int>() << std::endl;
 	}
 
 	//将测试集图片转换为Vector图片类型
@@ -133,7 +135,9 @@ namespace tinyDNN
 	{
 		for (int i = 0; i < 10000; i++)
 		{
-			Eigen::Map<MatrixD> mapMatrix( ( (MatrixD)(LoadCSV::input_Layer_T->forward_Matrix->getMatrixQL().row(i)) ).data(), 28, 28 );
+			MatrixD trans_01 = static_cast<MatrixD>( LoadCSV::input_Layer_T->forward_Matrix->getMatrixQL().row(i) );
+
+			Eigen::Map<MatrixD> mapMatrix( trans_01.data(), 28, 28 );
 
 			std::shared_ptr<MatrixQL<double>> convMatrix = std::make_shared<MatrixQL<double>>(28,28);
 			convMatrix->setMatrixQL() = mapMatrix;
@@ -141,6 +145,6 @@ namespace tinyDNN
 			conv_Input_Vector_T.push_back(convMatrix);
 		}
 
-		std::cout << (( conv_Input_Vector_T[999] )->getMatrixQL() * 9).cast<int>() << std::endl;
+		//std::cout << (( conv_Input_Vector_T[999] )->getMatrixQL() * 9).cast<int>() << std::endl;
 	}
 }

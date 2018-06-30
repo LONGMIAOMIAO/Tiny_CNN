@@ -13,17 +13,17 @@ namespace tinyDNN
 			for (int i = 0; i < kernelSize; i++)
 			{
 				std::shared_ptr<MatrixQL<Dtype>> oneSlice_Kernel = std::make_shared<MatrixQL<Dtype>>(kernelWidth, kernelWidth);
-				//oneSlice_Kernel->setMatrixQL().setOnes();
-				double startNum = 0.1 * (i + 1) ;
-				for ( int p = 0; p < kernelWidth; p++ )
-				{
-					for ( int q = 0; q < kernelWidth; q++ )
-					{
-						oneSlice_Kernel->setMatrixQL()(p, q) = startNum;
-						startNum = startNum + 0.1 * (i + 1);
-					}
-				}
-
+				////oneSlice_Kernel->setMatrixQL().setOnes();
+				//double startNum = 0.1 * (i + 1) ;
+				//for ( int p = 0; p < kernelWidth; p++ )
+				//{
+				//	for ( int q = 0; q < kernelWidth; q++ )
+				//	{
+				//		oneSlice_Kernel->setMatrixQL()(p, q) = startNum;
+				//		startNum = startNum + 0.1 * (i + 1);
+				//	}
+				//}
+				oneSlice_Kernel->setMatrixQL().setRandom();
 				//one_Kernel->setMatrixQL().setRandom();
 				
 				//一个卷积核有i片
@@ -177,15 +177,19 @@ namespace tinyDNN
 
 						}
 					}
-					std::cout << "UP值++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-					std::cout << upMatrix->getMatrixQL() << std::endl;
-					std::cout << "减之前++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-					std::cout << this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->getMatrixQL() << std::endl;
+
+					//std::cout << "UP值++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+					//std::cout << upMatrix->getMatrixQL() << std::endl;
+					//std::cout << "减之前++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+					//std::cout << this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->getMatrixQL() << std::endl;
+
 					//*********************************************
-					this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->setMatrixQL() = this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->getMatrixQL() - upMatrix->getMatrixQL();
+					this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->setMatrixQL() = this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->getMatrixQL() - 0.01 * upMatrix->getMatrixQL();
 					//*********************************************
-					std::cout << "减之后++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-					std::cout << this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->getMatrixQL() << std::endl;
+
+					//std::cout << "减之后++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+					//std::cout << this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->getMatrixQL() << std::endl;
+
 				}
 
 			}
