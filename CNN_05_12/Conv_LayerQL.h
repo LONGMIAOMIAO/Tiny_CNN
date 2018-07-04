@@ -13,6 +13,8 @@ namespace tinyDNN
 			for (int i = 0; i < kernelSize; i++)
 			{
 				std::shared_ptr<MatrixQL<Dtype>> oneSlice_Kernel = std::make_shared<MatrixQL<Dtype>>(kernelWidth, kernelWidth);
+				
+				//测试
 				////oneSlice_Kernel->setMatrixQL().setOnes();
 				//double startNum = 0.1 * (i + 1) ;
 				//for ( int p = 0; p < kernelWidth; p++ )
@@ -23,9 +25,25 @@ namespace tinyDNN
 				//		startNum = startNum + 0.1 * (i + 1);
 				//	}
 				//}
-				oneSlice_Kernel->setMatrixQL().setRandom();
-				//one_Kernel->setMatrixQL().setRandom();
 				
+				////实操
+				//oneSlice_Kernel->setMatrixQL().setRandom();
+
+
+				//实操， 采用高斯随机，正态分布
+				std::random_device rd;
+				std::mt19937 gen(rd());
+				//平均值1，标准差 0.1
+				std::normal_distribution<Dtype> normal(0, 0.1);
+				for ( int p = 0; p < kernelWidth; p++ )
+				{
+					for ( int q = 0; q < kernelWidth; q++ )
+					{
+						oneSlice_Kernel->setMatrixQL()(p, q) = normal(gen);
+					}
+				}
+
+
 				//一个卷积核有i片
 				this->conv_Kernel_Vector.push_back(oneSlice_Kernel);
 			}
@@ -184,7 +202,7 @@ namespace tinyDNN
 					//std::cout << this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->getMatrixQL() << std::endl;
 
 					//*********************************************
-					this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->setMatrixQL() = this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->getMatrixQL() - 0.01 * upMatrix->getMatrixQL();
+					this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->setMatrixQL() = this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->getMatrixQL() - 0.5 * upMatrix->getMatrixQL();
 					//*********************************************
 
 					//std::cout << "减之后++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
