@@ -1,34 +1,43 @@
 #pragma once
-#include "LayerQL.h"
+#include "MatrixQL.h"
+#include "memory"
+#include <iostream>
+#include <vector>
 
 namespace tinyDNN
 {
 	template <typename Dtype>
-	class Inter_LayerQL : public LayerQL<Dtype>
-	{
-	public:
-
-		//template <typename Dtype> friend class Fullconnect_LayerQL;
-		Inter_LayerQL(LayerType type/*, int rowNum, int rolNum*/);
-		~Inter_LayerQL() override final;
-
-		//std::unique_ptr<LayerQL<Dtype>> operator+(const std::unique_ptr<LayerQL<Dtype>>& operRight) const override final;
-		void calForward(std::unique_ptr<MatrixQL<Dtype>>& feed_Left, std::unique_ptr<MatrixQL<Dtype>>& feed_Right) const override final {};
-		void calBackward(std::unique_ptr<MatrixQL<Dtype>>& loss_Right, std::unique_ptr<MatrixQL<Dtype>>& loss_Left) override final {};
-
-
-
-	protected:
-		std::unique_ptr<MatrixQL<Dtype>> forward_Matrix;
-		std::unique_ptr<MatrixQL<Dtype>> backward_Matrix;
-	};
-
+	class LayerQL;
 
 	template <typename Dtype>
-	Inter_LayerQL<Dtype>::Inter_LayerQL(LayerType type/*, int rowNum, int rolNum*/) : LayerQL(type)
+	class Inter_LayerQL
+	{
+	public:
+		friend class Test;
+		//friend calss Mnist_Conv_Test;
+		
+		template <typename Dtype> 
+		friend std::shared_ptr<Inter_LayerQL<Dtype>> operator+(std::shared_ptr<Inter_LayerQL<Dtype>>& operLeft, std::shared_ptr<LayerQL<Dtype>>& operRight);
+
+		explicit Inter_LayerQL(int rowNum = 0, int colNum = 0);
+		~Inter_LayerQL();
+
+	public:
+		std::shared_ptr<MatrixQL<Dtype>> forward_Matrix;
+		std::shared_ptr<MatrixQL<Dtype>> backward_Matrix;
+
+		std::vector<std::shared_ptr<MatrixQL<Dtype>>> forward_Matrix_Vector;
+		std::vector<std::shared_ptr<MatrixQL<Dtype>>> backward_Matrix_Vector;
+	};
+
+	template <typename Dtype>
+	Inter_LayerQL<Dtype>::Inter_LayerQL(int rowNum = 0, int colNum = 0)
 	{
 		std::cout << "Inter_Layer Start!" << std::endl;
 
+		//中间层的前向层和反向层
+		this->forward_Matrix = std::make_unique<MatrixQL<Dtype>>(rowNum, colNum);
+		this->backward_Matrix = std::make_unique<MatrixQL<Dtype>>(rowNum, colNum);
 	}
 
 	template <typename Dtype>
@@ -36,15 +45,4 @@ namespace tinyDNN
 	{
 		std::cout << "Inter_Layer End!" << std::endl;
 	}
-
-	//template <typename Dtype>
-	//std::unique_ptr<LayerQL<Dtype>> Inter_LayerQL<Dtype>::operator+(const std::unique_ptr<LayerQL<Dtype>>& operRight) const
-	//{
-	//	operRight->left_Layer = this;
-
-
-	//	std::unique_ptr<LayerQL<Dtype>> tt = std::make_unique<LayerQL<Dtype>>(Inter_Layer);
-
-	//	return tt;
-	//};
 }
