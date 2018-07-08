@@ -11,6 +11,8 @@
 #include "Dim_Reduce_Test.h"
 #include "LoadCSV_Test.h"
 #include "Mnist_Conv_Test.h"
+#include "Relu_LayerQL_Test.h"
+#include "SoftMax_Layer_Test.h"
 using namespace tinyDNN;
 int main()
 {
@@ -29,7 +31,12 @@ int main()
 	//LoadCSV_Test test;
 
 	//²âÊÔ¾í»ıÍøÂç²ã
-
 	Mnist_Conv_Test test;
+
+	//²âÊÔRelu²ã
+	//Relu_LayerQL_Test test;
+
+	//²âÊÔSoftmax²ã
+	//SoftMax_Layer_Test test;
 	return 0;
 }

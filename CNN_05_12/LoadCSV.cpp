@@ -12,6 +12,14 @@ namespace tinyDNN
 	std::vector<std::shared_ptr<MatrixQL<double>>> LoadCSV::conv_Input_Vector;
 	//加载MNIST数据集到二维矩阵
 	std::vector<std::shared_ptr<MatrixQL<double>>> LoadCSV::conv_Input_Vector_T;
+	//**********************************************************************************************************************
+	//**********************************************************************************************************************
+	//加载Cifar数据集，训练集，50000个
+	std::vector< std::vector< std::shared_ptr<MatrixQL<double> > > > LoadCifar_10::cifar_Input_Vector;
+	std::shared_ptr< MatrixQL<double> > LoadCifar_10::cifar_Out_Lable = std::make_shared<MatrixQL<double>>(50000,10);
+
+	std::vector< std::vector< std::shared_ptr<MatrixQL<double> > > > LoadCifar_10::cifar_Input_Vector_T;
+	std::shared_ptr< MatrixQL<double> > LoadCifar_10::cifar_Out_Lable_T = std::make_shared<MatrixQL<double>>(10000,10);
 
 	LoadCSV::LoadCSV(){}
 
@@ -146,5 +154,98 @@ namespace tinyDNN
 		}
 
 		//std::cout << (( conv_Input_Vector_T[999] )->getMatrixQL() * 9).cast<int>() << std::endl;
+	}
+
+	//*******************************************************************************************************************************************************************
+	void LoadCifar_10::loadCifar_10_Train()
+	{
+		LoadCifar_10::cifar_Out_Lable->setMatrixQL().setZero();
+		LoadCifar_10::cifar_Out_Lable_T->setMatrixQL().setZero();
+
+		for ( int i = 1; i < 7; i++ )
+		{
+			// 读入 训练集 的 训练文件
+			std::string inHandler_Begin = "H:/tmp/cifar10_data/cifar-10-batches-bin/data_batch_";
+			std::string inHandler_End = ".bin";
+
+			std::string inHandler;
+
+			switch (i)
+			{
+			case 6:
+				inHandler = "H:/tmp/cifar10_data/cifar-10-batches-bin/test_batch.bin";
+				break;
+			default:
+				inHandler = inHandler_Begin.append(std::to_string(i)).append(inHandler_End);
+				break;
+			}
+			//std::string inHandler = inHandler_Begin.append(std::to_string(i)).append(inHandler_End);
+
+			std::ifstream inFile(inHandler, std::ios::binary);
+			char* buffer = new char[10000 * 3073];
+			inFile.read(buffer, 10000 * 3073 * sizeof(char));
+
+			for ( int j = 0; j < 10000; j++ )
+			{
+				unsigned char tmp = (unsigned char)buffer[j*3073];
+				//std::cout << (unsigned short)tmp << std::endl;
+
+				switch (i)
+				{
+				case 6:
+					LoadCifar_10::cifar_Out_Lable_T->setMatrixQL()( 0 * 10000 + j, tmp) = 1;
+					break;
+				default:
+					LoadCifar_10::cifar_Out_Lable->setMatrixQL()((i - 1) * 10000 + j, tmp) = 1;
+					break;
+				}
+				//LoadCifar_10::cifar_Out_Lable->setMatrixQL()((i - 1) * 10000 + j, tmp) = 1;
+				
+				//单张图片的三个儿子图片
+				std::vector<std::shared_ptr<MatrixQL<double>>> inMatrix;
+
+				for ( int k = 0; k < 3; k++ )
+				{
+					unsigned char tmp_01 = (unsigned char)buffer[j * 3073 + 1 + k * 1024 ];
+					
+					std::shared_ptr<MatrixQL<double>> mat = std::make_shared<MatrixQL<double>>(32,32);
+					for ( int m = 0; m < 32; m++ )
+					{
+						unsigned char tmp_02 = (unsigned char)buffer[j * 3073 + 1 + k * 1024 + m *32 ];
+
+						for ( int n = 0; n < 32; n++ )
+						{
+							unsigned char tmp_03 = (unsigned char)buffer[j * 3073 + 1 + k * 1024 + m * 32 + n];
+							mat->setMatrixQL()(m, n) = tmp_03 / 255.0;
+						}
+					}
+					inMatrix.push_back(mat);
+				}
+				switch (i)
+				{
+				case 6:
+					LoadCifar_10::cifar_Input_Vector_T.push_back(inMatrix);
+					break;
+				default:
+					LoadCifar_10::cifar_Input_Vector.push_back(inMatrix);
+					break;
+				}
+			}
+			//for (int j = 0 * 3073; j < 10000 * 3073; j++)
+			//{
+			//	unsigned char tmp = (unsigned char)buffer[j];
+			//	std::cout << (unsigned short)tmp << std::endl;
+			//}
+			//std::cout << (unsigned short)(unsigned char)(buffer[3073 * 9999]) << std::endl;
+			//std::cout << (unsigned short)(unsigned char)(buffer[3073 * 10000]) << std::endl;
+		}
+		//std::cout << cifar_Out_Lable->getMatrixQL() << std::endl;
+
+		//std::cout << LoadCifar_10::cifar_Input_Vector[300][2]->getMatrixQL() << std::endl;
+		//std::cout << LoadCifar_10::cifar_Input_Vector_T[300][2]->getMatrixQL() << std::endl;
+		//std::cout << LoadCifar_10::cifar_Input_Vector.size() << std::endl;
+		//std::cout << LoadCifar_10::cifar_Input_Vector_T.size() << std::endl;
+		//std::cout << LoadCifar_10::cifar_Out_Lable_T->getMatrixQL() << std::endl;
+		//std::cout << LoadCifar_10::cifar_Out_Lable->getMatrixQL() << std::endl;
 	}
 }

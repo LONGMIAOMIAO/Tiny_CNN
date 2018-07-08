@@ -37,12 +37,12 @@ namespace tinyDNN
 	template <typename Dtype>
 	void Sigmoid_LayerQL<Dtype>::calForward(int type = 0) const
 	{
-		switch (type)
+		switch (this->layerType)
 		{
-		case 0:
+		case Sigmoid_Layer:
 			this->calForward_Matrix();
 			break;
-		default:
+		case Sigmoid_Conv_Layer:
 			this->calForward_Matrix_Vector();
 			break;
 		}
@@ -74,12 +74,12 @@ namespace tinyDNN
 	template <typename Dtype>
 	void Sigmoid_LayerQL<Dtype>::calBackward(int type = 0)
 	{
-		switch (type)
+		switch (this->layerType)
 		{
-		case 0:
+		case Sigmoid_Layer:
 			this->calBackward_Matrix();
 			break;
-		default:
+		case Sigmoid_Conv_Layer:
 			this->calBackward_Matrix_Vector();
 			break;
 		}

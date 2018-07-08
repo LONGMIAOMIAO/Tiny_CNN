@@ -7,7 +7,8 @@ namespace tinyDNN
 	public:
 		LoadCSV_Test()
 		{
-			this->dim2_Matrix();
+			//this->dim2_Matrix();
+			this->cifar_10_train();
 		}
 		~LoadCSV_Test()
 		{
@@ -28,6 +29,11 @@ namespace tinyDNN
 
 			std::cout << LoadCSV::conv_Input_Vector_T[2]->getMatrixQL() << std::endl;
 			std::cout << (LoadCSV::conv_Input_Vector_T[2]->getMatrixQL() * 9).cast<int>() << std::endl;
+		}
+
+		void cifar_10_train()
+		{
+			LoadCifar_10::loadCifar_10_Train();
 		}
 	};
 }

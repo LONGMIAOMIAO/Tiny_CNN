@@ -38,9 +38,20 @@ namespace tinyDNN
 
 		//**********************************************************
 
-
 		static std::vector<std::shared_ptr<MatrixQL<double>>> conv_Input_Vector;
 		static std::vector<std::shared_ptr<MatrixQL<double>>> conv_Input_Vector_T;
 
+	};
+
+	class LoadCifar_10
+	{
+	public:
+		static void loadCifar_10_Train();
+
+		static std::vector< std::vector< std::shared_ptr<MatrixQL<double> > > > cifar_Input_Vector;
+		static std::shared_ptr< MatrixQL<double> > cifar_Out_Lable;
+
+		static std::vector< std::vector< std::shared_ptr<MatrixQL<double> > > > cifar_Input_Vector_T;
+		static std::shared_ptr< MatrixQL<double> > cifar_Out_Lable_T;
 	};
 }

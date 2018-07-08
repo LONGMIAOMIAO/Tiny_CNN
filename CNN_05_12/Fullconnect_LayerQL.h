@@ -17,6 +17,9 @@ namespace tinyDNN
 
 		void upMatrix() override final;
 		void upMatrix_batch(Dtype upRate) override final;
+
+		//static double upRate
+
 	private:
 		std::unique_ptr<MatrixQL<Dtype>> w_MatrixQL;
 		int rowNum;
@@ -82,7 +85,9 @@ namespace tinyDNN
 		//std::cout << this->w_MatrixQL->getMatrixQL() << std::endl;
 
 		//更新	注入转置 * 反向输入
-		this->w_MatrixQL->setMatrixQL() = (1-0)*(this->w_MatrixQL->getMatrixQL()) - 0.15 * (this->left_Layer->forward_Matrix->getMatrixQL().transpose() ) * ( this->right_Layer->backward_Matrix->getMatrixQL() );
+		//this->w_MatrixQL->setMatrixQL() = (1-0)*(this->w_MatrixQL->getMatrixQL()) - 0.15 * (this->left_Layer->forward_Matrix->getMatrixQL().transpose() ) * ( this->right_Layer->backward_Matrix->getMatrixQL() );
+
+		this->w_MatrixQL->setMatrixQL() = (1-0)*(this->w_MatrixQL->getMatrixQL()) - this->upFull * (this->left_Layer->forward_Matrix->getMatrixQL().transpose() ) * ( this->right_Layer->backward_Matrix->getMatrixQL() );
 	}
 
 	template <typename Dtype>

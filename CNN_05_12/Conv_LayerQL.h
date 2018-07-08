@@ -34,7 +34,7 @@ namespace tinyDNN
 				std::random_device rd;
 				std::mt19937 gen(rd());
 				//平均值1，标准差 0.1
-				std::normal_distribution<Dtype> normal(0, 0.1);
+				std::normal_distribution<Dtype> normal(0, 0.01);
 				for ( int p = 0; p < kernelWidth; p++ )
 				{
 					for ( int q = 0; q < kernelWidth; q++ )
@@ -202,7 +202,9 @@ namespace tinyDNN
 					//std::cout << this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->getMatrixQL() << std::endl;
 
 					//*********************************************
-					this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->setMatrixQL() = this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->getMatrixQL() - 0.5 * upMatrix->getMatrixQL();
+					//this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->setMatrixQL() = this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->getMatrixQL() - 0.5 * upMatrix->getMatrixQL();
+
+					this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->setMatrixQL() = this->conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->getMatrixQL() - this->upConv * upMatrix->getMatrixQL();
 					//*********************************************
 
 					//std::cout << "减之后++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;

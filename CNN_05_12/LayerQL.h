@@ -10,11 +10,16 @@ namespace tinyDNN
 		Fullconnect_Layer = 1,
 		Bias_Layer = 2,
 		Sigmoid_Layer = 3,
+		Sigmoid_Conv_Layer = 31,
+		Relu_Layer = 9,
+		Relu_Conv_Layer = 91,
 		MSE_Loss_Layer = 4,
+		SoftMax_Layer = 41,
 		Pool_Layer = 5,
 		Conv_Layer = 6,
 		Padding_Layer = 7,
 		Dim_Reduce_Layer = 8,
+		
 	};
 
 	template <typename Dtype>
@@ -34,6 +39,10 @@ namespace tinyDNN
 		friend class Mnist_Conv_Test;
 		template <typename Dtype> 
 		friend std::shared_ptr<Inter_LayerQL<Dtype>> operator+( std::shared_ptr<Inter_LayerQL<Dtype>>& operLeft,  std::shared_ptr<LayerQL<Dtype>>& operRight);
+
+		double upFull;
+		double upConv;
+		double pRelu_k;
 
 	protected:
 		LayerType layerType;
