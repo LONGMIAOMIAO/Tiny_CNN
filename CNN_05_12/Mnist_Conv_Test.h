@@ -1103,10 +1103,10 @@ namespace tinyDNN
 
 			//return;
 
-			std::shared_ptr<LayerQL<double>> sigmoid_01 = std::make_shared<Relu_LayerQL<double>>(Relu_Conv_Layer);	//Sigmoid层
+			std::shared_ptr<LayerQL<double>> sigmoid_01 = std::make_shared<Relu_LayerQL<double>>(Relu_Conv_Layer);	//Relu层
 			std::shared_ptr<Inter_LayerQL<double>> o_03 = o_02 + sigmoid_01;
 			sigmoid_01->pRelu_k = 0.1;
-			//**********************************************************************Sigmoid层
+			//**********************************************************************Relu层
 			//3333333333333333333333333333333333333333333333333333333333333333333333
 			sigmoid_01->calForward(1);
 			std::cout << o_03->forward_Matrix_Vector[0]->getMatrixQL() << std::endl;
@@ -1119,6 +1119,7 @@ namespace tinyDNN
 			std::shared_ptr<LayerQL<double>> pool_02 = std::make_shared<PooLayerQL<double>>(Pool_Layer, 8, 8);	//池化层
 			std::shared_ptr<Inter_LayerQL<double>> o_04 = o_03 + pool_02;
 
+
 			//**********************************************************************池化层
 			//4444444444444444444444444444444444444444444444444444444444444444444444
 			pool_02->calForward();
@@ -1127,10 +1128,33 @@ namespace tinyDNN
 			std::cout << o_04->forward_Matrix_Vector[7]->getMatrixQL() << std::endl;
 			//**********************************************************************
 
+
+
+			std::shared_ptr<LayerQL<double>> conv_02 = std::make_shared<Conv_LayerQL<double>>(Conv_Layer, 16, 8, 8, 3, 16, 1);	//卷积层
+			std::shared_ptr<Inter_LayerQL<double>> o_04_02 = o_04 + conv_02;
+
+			//**********************************************************************卷积层
+			//2222222222222222222222222222222222222222222222222222222222222222222222
+			conv_02->calForward();
+
+
+			std::shared_ptr<LayerQL<double>> sigmoid_01_02 = std::make_shared<Relu_LayerQL<double>>(Relu_Conv_Layer);	//Relu层
+			std::shared_ptr<Inter_LayerQL<double>> o_04_03 = o_04_02 + sigmoid_01_02;
+			sigmoid_01_02->pRelu_k = 0.1;
+			//**********************************************************************Relu层
+			//3333333333333333333333333333333333333333333333333333333333333333333333
+			sigmoid_01_02->calForward(1);
+
+
+			std::shared_ptr<LayerQL<double>> pool_02_02 = std::make_shared<PooLayerQL<double>>(Pool_Layer, 4, 4);	//池化层
+			std::shared_ptr<Inter_LayerQL<double>> o_04_04 = o_04_03 + pool_02_02;
+
+			pool_02_02->calForward();
+
 			//return;
 
-			std::shared_ptr<LayerQL<double>> dim_reduce_01 = std::make_shared<Dim_ReduceQL<double>>(Dim_Reduce_Layer, 16, 8, 8);	//降维层
-			std::shared_ptr<Inter_LayerQL<double>> o_05 = o_04 + dim_reduce_01;
+			std::shared_ptr<LayerQL<double>> dim_reduce_01 = std::make_shared<Dim_ReduceQL<double>>(Dim_Reduce_Layer, 16, 4, 4);	//降维层
+			std::shared_ptr<Inter_LayerQL<double>> o_05 = o_04_04 + dim_reduce_01;
 
 			//**********************************************************************降维层
 			//55555555555555555555555555555555555555555555555555555555555555555555555
@@ -1140,7 +1164,7 @@ namespace tinyDNN
 
 			//return;
 
-			std::shared_ptr<LayerQL<double>> fullconnect_01 = std::make_shared<Fullconnect_LayerQL<double>>(Fullconnect_Layer, 16 * 8 * 8, 10);//全连接层
+			std::shared_ptr<LayerQL<double>> fullconnect_01 = std::make_shared<Fullconnect_LayerQL<double>>(Fullconnect_Layer, 16 * 4 * 4, 10);//全连接层
 			std::shared_ptr<Inter_LayerQL<double>> o_06 = o_05 + fullconnect_01;
 
 			//**********************************************************************全连接层
@@ -1151,7 +1175,7 @@ namespace tinyDNN
 
 			//return;
 
-			std::shared_ptr<LayerQL<double>> sigmoid_02 = std::make_shared<Relu_LayerQL<double>>(Relu_Layer);	//Sigmoid层
+			std::shared_ptr<LayerQL<double>> sigmoid_02 = std::make_shared<Relu_LayerQL<double>>(Relu_Layer);	//Relu层
 			std::shared_ptr<Inter_LayerQL<double>> o_07 = o_06 + sigmoid_02;
 			sigmoid_02->pRelu_k = 0.1;
 			//**********************************************************************Sigmoid层
@@ -1173,41 +1197,61 @@ namespace tinyDNN
 
 			//return;
 
-			for (int i = 0; i < 12; i++)
+			for (int i = 0; i < 14; i++)
 			{
 				//	 程序加载初始时间
 				DWORD load_time = GetTickCount();
 
 				sigmoid_01->pRelu_k = 0.12;
+				sigmoid_01_02->pRelu_k = 0.12;
 				sigmoid_02->pRelu_k = 0.12;
 				if (i < 2)
 				{
-					conv_01->upConv = 0.01;
-					fullconnect_01->upFull = 0.007;
+					conv_01->upConv = 0.03;
+					conv_02->upConv = 0.03;
+					fullconnect_01->upFull = 0.015;
 				}
-				else if (i < 4)
+				if (i < 4)
 				{
-					conv_01->upConv = 0.005;
-					fullconnect_01->upFull = 0.003;
+					conv_01->upConv = 0.015;
+					conv_02->upConv = 0.015;
+					fullconnect_01->upFull = 0.009;
 				}
 				else if (i < 6)
 				{
-					conv_01->upConv = 0.001;
-					fullconnect_01->upFull = 0.001;
+					conv_01->upConv = 0.008;
+					conv_02->upConv = 0.008;
+					fullconnect_01->upFull = 0.006;
 				}
+				//这里有突变,重点关注这个学习率
 				else if (i < 8)
 				{
-					conv_01->upConv = 0.0005;
-					fullconnect_01->upFull = 0.0005;
+					conv_01->upConv = 0.004;
+					conv_02->upConv = 0.004;
+					fullconnect_01->upFull = 0.003;
 				}
 				else if (i < 10)
 				{
-					conv_01->upConv = 0.0001;
-					fullconnect_01->upFull = 0.0001;
+					conv_01->upConv = 0.002;
+					conv_02->upConv = 0.002;
+					fullconnect_01->upFull = 0.001;
 				}
 				else if (i < 12)
 				{
+					conv_01->upConv = 0.001;
+					conv_02->upConv = 0.001;
+					fullconnect_01->upFull = 0.0005;
+				}
+				else if (i < 14)
+				{
+					conv_01->upConv = 0.0005;
+					conv_02->upConv = 0.0005;
+					fullconnect_01->upFull = 0.002;
+				}
+				else if (i < 18)
+				{
 					conv_01->upConv = 0.00005;
+					conv_02->upConv = 0.00005;
 					fullconnect_01->upFull = 0.00005;
 				}
 				//conv_01->upConv = 0.5 / pow(10, i/4);
@@ -1216,7 +1260,7 @@ namespace tinyDNN
 				for (int j = 0; j < 50000; j++)
 				{
 					//std::cout << j << std::endl;
-					if (j % 10000 == 0) std::cout << j << std::endl;
+					if (j % 10000 == 0) std::cout << i << "::" << j << std::endl;
 
 					in_01->forward_Matrix_Vector = LoadCifar_10::cifar_Input_Vector[j];
 
