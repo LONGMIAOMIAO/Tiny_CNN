@@ -10,6 +10,7 @@
 #include <math.h>
 #include "Relu_LayerQL.h"
 #include "SoftMax_LayerQL.h"
+#include "Data_AugmentationQL.h"
 
 namespace tinyDNN
 {
@@ -1078,8 +1079,18 @@ namespace tinyDNN
 			std::shared_ptr<Inter_LayerQL<double>> in_01 = std::make_shared<Inter_LayerQL<double>>(32, 32);
 			in_01->forward_Matrix_Vector = LoadCifar_10::cifar_Input_Vector[4];
 
+
+			//**********************************************************************数据增强层
+			//0000000000000000000000000000000000000000000000000000000000000000000000
+
+			std::shared_ptr<LayerQL<double>> data_Aumentation_01 = std::make_shared<Data_AugmentationQL<double>>(Data_Augmentation_Layer,0,0);
+			std::shared_ptr<Inter_LayerQL<double>> o_00 = in_01 + data_Aumentation_01;
+
+			data_Aumentation_01->calForward();
+
+
 			std::shared_ptr<LayerQL<double>> pool_01 = std::make_shared<PooLayerQL<double>>(Pool_Layer, 16, 16);	//池化层
-			std::shared_ptr<Inter_LayerQL<double>> o_01 = in_01 + pool_01;
+			std::shared_ptr<Inter_LayerQL<double>> o_01 = o_00 + pool_01;
 
 			//**********************************************************************池化层
 			//1111111111111111111111111111111111111111111111111111111111111111111111
@@ -1184,6 +1195,27 @@ namespace tinyDNN
 			std::cout << o_07->forward_Matrix->getMatrixQL() << std::endl;
 			//**********************************************************************
 
+			//====================================================================================================================================================================
+
+			//std::shared_ptr<LayerQL<double>> fullconnect_01_02 = std::make_shared<Fullconnect_LayerQL<double>>(Fullconnect_Layer, 30, 10);//全连接层2
+			//std::shared_ptr<Inter_LayerQL<double>> o_07_02 = o_07 + fullconnect_01_02;
+
+			////**********************************************************************全连接层
+			////7777777777777777777777777777777777777777111111111111111111111111111111
+			//fullconnect_01_02->calForward();
+
+
+
+			//std::shared_ptr<LayerQL<double>> sigmoid_02_02 = std::make_shared<Relu_LayerQL<double>>(Relu_Layer);	//Relu层
+			//std::shared_ptr<Inter_LayerQL<double>> o_07_03 = o_07_02 + sigmoid_02_02;
+			//sigmoid_02_02->pRelu_k = 0.1;
+
+			//sigmoid_02_02->calForward();
+
+			//=====================================================================================================================================================================
+
+
+
 			//return;
 
 			std::shared_ptr<LayerQL<double>> lossLayer_01 = std::make_shared<SoftMax_LayerQL<double>>(SoftMax_Layer);//Loss层
@@ -1205,23 +1237,27 @@ namespace tinyDNN
 				sigmoid_01->pRelu_k = 0.12;
 				sigmoid_01_02->pRelu_k = 0.12;
 				sigmoid_02->pRelu_k = 0.12;
+				//sigmoid_02_02->pRelu_k = 0.12;
 				if (i < 2)
 				{
 					conv_01->upConv = 0.03;
 					conv_02->upConv = 0.03;
 					fullconnect_01->upFull = 0.015;
+					//fullconnect_01_02->upFull = 0.015;
 				}
 				if (i < 4)
 				{
 					conv_01->upConv = 0.015;
 					conv_02->upConv = 0.015;
 					fullconnect_01->upFull = 0.009;
+					//fullconnect_01_02->upFull = 0.009;
 				}
 				else if (i < 6)
 				{
 					conv_01->upConv = 0.008;
 					conv_02->upConv = 0.008;
 					fullconnect_01->upFull = 0.006;
+					//fullconnect_01_02->upFull = 0.006;
 				}
 				//这里有突变,重点关注这个学习率
 				else if (i < 8)
@@ -1229,24 +1265,28 @@ namespace tinyDNN
 					conv_01->upConv = 0.004;
 					conv_02->upConv = 0.004;
 					fullconnect_01->upFull = 0.003;
+					//fullconnect_01_02->upFull = 0.003;
 				}
 				else if (i < 10)
 				{
 					conv_01->upConv = 0.002;
 					conv_02->upConv = 0.002;
 					fullconnect_01->upFull = 0.001;
+					//fullconnect_01_02->upFull = 0.001;
 				}
 				else if (i < 12)
 				{
 					conv_01->upConv = 0.001;
 					conv_02->upConv = 0.001;
 					fullconnect_01->upFull = 0.0005;
+					//fullconnect_01_02->upFull = 0.0005;
 				}
 				else if (i < 14)
 				{
 					conv_01->upConv = 0.0005;
 					conv_02->upConv = 0.0005;
-					fullconnect_01->upFull = 0.002;
+					fullconnect_01->upFull = 0.0002;
+					//fullconnect_01_02->upFull = 0.0002;
 				}
 				else if (i < 18)
 				{

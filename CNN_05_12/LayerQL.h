@@ -19,7 +19,7 @@ namespace tinyDNN
 		Conv_Layer = 6,
 		Padding_Layer = 7,
 		Dim_Reduce_Layer = 8,
-		
+		Data_Augmentation_Layer = 9,
 	};
 
 	template <typename Dtype>

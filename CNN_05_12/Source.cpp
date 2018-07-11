@@ -13,6 +13,7 @@
 #include "Mnist_Conv_Test.h"
 #include "Relu_LayerQL_Test.h"
 #include "SoftMax_Layer_Test.h"
+#include "Data_Augmentation_Test.h"
 using namespace tinyDNN;
 int main()
 {
@@ -30,7 +31,10 @@ int main()
 	//¼ÓÔØÊı¾İ²ã
 	//LoadCSV_Test test;
 
-	//²âÊÔ¾í»ıÍøÂç²ã
+	//²âÊÔÊı¾İÔöÇ¿²ã
+	//Data_Augmentation_Test test;
+
+	////²âÊÔ¾í»ıÍøÂç²ã
 	Mnist_Conv_Test test;
 
 	//²âÊÔRelu²ã

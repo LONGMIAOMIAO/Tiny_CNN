@@ -219,6 +219,14 @@ namespace tinyDNN
 							mat->setMatrixQL()(m, n) = tmp_03 / 255.0;
 						}
 					}
+
+					double meanNum = mat->getMatrixQL().mean();
+					mat->setMatrixQL() = mat->getMatrixQL().array() - meanNum;
+					double stD = sqrt((((mat->getMatrixQL().array()).square()).sum() / (32*32 ) ));
+					mat->setMatrixQL() = mat->getMatrixQL() / stD;
+
+					//std::cout << mat->getMatrixQL() << std::endl;
+
 					inMatrix.push_back(mat);
 				}
 				switch (i)
