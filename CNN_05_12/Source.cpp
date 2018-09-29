@@ -14,6 +14,7 @@
 #include "Relu_LayerQL_Test.h"
 #include "SoftMax_Layer_Test.h"
 #include "Data_Augmentation_Test.h"
+#include "Mnist_Conv_T2.h"
 using namespace tinyDNN;
 int main()
 {
@@ -34,13 +35,16 @@ int main()
 	//²âÊÔÊı¾İÔöÇ¿²ã
 	//Data_Augmentation_Test test;
 
-	////²âÊÔ¾í»ıÍøÂç²ã
-	Mnist_Conv_Test test;
+	////²âÊÔ¾í»ıÍøÂç²ã=======================================================================================
+	//Mnist_Conv_Test test;
 
 	//²âÊÔRelu²ã
 	//Relu_LayerQL_Test test;
 
 	//²âÊÔSoftmax²ã
 	//SoftMax_Layer_Test test;
+
+	mnist_Conv_T_1();
+
 	return 0;
 }

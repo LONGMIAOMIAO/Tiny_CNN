@@ -37,6 +37,8 @@ namespace tinyDNN
 		
 		friend class Test;
 		friend class Mnist_Conv_Test;
+		friend void mnist_Conv_T_1();
+
 		template <typename Dtype> 
 		friend std::shared_ptr<Inter_LayerQL<Dtype>> operator+( std::shared_ptr<Inter_LayerQL<Dtype>>& operLeft,  std::shared_ptr<LayerQL<Dtype>>& operRight);
 

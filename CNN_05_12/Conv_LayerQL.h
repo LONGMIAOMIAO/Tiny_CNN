@@ -58,10 +58,6 @@ namespace tinyDNN
 				//std::cout << conv_Kernel_Vector[i]->getMatrixQL() << std::endl;
 
 				////更新载入矩阵
-				//std::shared_ptr<MatrixQL<Dtype>> paddingMatrix = std::make_shared<MatrixQL<Dtype>>(rowNum + 2 * padSize, colNum + 2 * padSize);
-				//paddingMatrix->setMatrixQL().setZero();
-				//paddingMatrix->setMatrixQL().block(padSize, padSize, rowNum, colNum) = matrixPtr->getMatrixQL().block(0, 0, rowNum, colNum);
-				
 				std::shared_ptr<MatrixQL<Dtype>> paddingMatrix = std::make_shared<MatrixQL<Dtype>>(rowNum + 2 * paddingSize, colNum + 2 * paddingSize);
 				paddingMatrix->setMatrixQL().setZero();
 				paddingMatrix->setMatrixQL().block( paddingSize, paddingSize, rowNum, colNum) = inMatrixVector[i]->getMatrixQL().block(0, 0, rowNum, colNum);
@@ -105,6 +101,7 @@ namespace tinyDNN
 	class Conv_LayerQL : public LayerQL<Dtype>
 	{
 	public:
+		//							类型			卷积核数			行数			列数				卷积核宽度		卷积核几片		扩充宽度	
 		explicit Conv_LayerQL(LayerType type, int kernelNum, int rowNum, int colNum, int kernelWidth, int kernelSize, int paddingSize ) : LayerQL(type), kernelNum(kernelNum), rowNum(rowNum), colNum(colNum), kernelWidth(kernelWidth), kernelSize(kernelSize), paddingSize(paddingSize)
 		{
 			std::cout << "Conv_LayerQL Start!" << std::endl;
@@ -158,7 +155,6 @@ namespace tinyDNN
 
 				for ( int j = 0 ; j < kernelSize; j++ )
 				{
-
 					std::shared_ptr<MatrixQL<Dtype>> reMatrix = std::make_shared<MatrixQL<Dtype>>(rowNum, colNum);
 					for (int p = 0; p < rowNum; p++)
 					{
@@ -169,9 +165,7 @@ namespace tinyDNN
 					}
 					this->left_Layer->backward_Matrix_Vector[j]->setMatrixQL() = this->left_Layer->backward_Matrix_Vector[j]->getMatrixQL() + reMatrix->getMatrixQL();
 				}
-
 			}
-		
 		};
 
 		void upMatrix() override final 
@@ -191,8 +185,6 @@ namespace tinyDNN
 						{
 							upMatrix->setMatrixQL()(p, q) = (paddingMatrix->getMatrixQL().block(p, q, rowNum, colNum).array() *
 								this->right_Layer->backward_Matrix_Vector[i]->getMatrixQL().array()).sum();
-								//conv_Kernel_Vector[i]->conv_Kernel_Vector[j]->getMatrixQL().reverse().array()).sum();
-
 						}
 					}
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "omp.h"
 #include "LoadCSV.h"
 #include "LayerQL.h"
 #include "PooLayerQL.h"
@@ -1240,8 +1241,8 @@ namespace tinyDNN
 				//sigmoid_02_02->pRelu_k = 0.12;
 				if (i < 2)
 				{
-					conv_01->upConv = 0.03;
-					conv_02->upConv = 0.03;
+					conv_01->upConv = 0.02;
+					conv_02->upConv = 0.02;
 					fullconnect_01->upFull = 0.015;
 					//fullconnect_01_02->upFull = 0.015;
 				}
@@ -1297,6 +1298,7 @@ namespace tinyDNN
 				//conv_01->upConv = 0.5 / pow(10, i/4);
 				//fullconnect_01->upFull = 0.15 / pow(10, i/4);
 
+//#pragma omp parallel
 				for (int j = 0; j < 50000; j++)
 				{
 					//std::cout << j << std::endl;
@@ -1307,11 +1309,13 @@ namespace tinyDNN
 					o_08->backward_Matrix->setMatrixQL() = LoadCifar_10::cifar_Out_Lable->getMatrixQL().row(j);
 
 					//从头开始进行前向传播
+//#pragma omp parallel
 					for (auto k = NetQL<double>::layerQLVector.begin(); k != NetQL<double>::layerQLVector.end(); k++)
 					{
 						(*k)->calForward();
 					}
 					//从头开始反向传播 + 权重更新
+//#pragma omp parallel
 					for (auto k = NetQL<double>::layerQLVector.rbegin(); k != NetQL<double>::layerQLVector.rend(); k++)
 					{
 						(*k)->calBackward();
@@ -1339,6 +1343,7 @@ namespace tinyDNN
 				endLayer->backward_Matrix->setMatrixQL() = LoadCifar_10::cifar_Out_Lable_T->getMatrixQL().row(k);
 
 				//前向传播，计算结果
+
 				for (auto k = NetQL<double>::layerQLVector.begin(); k != NetQL<double>::layerQLVector.end(); k++)
 				{
 					(*k)->calForward();

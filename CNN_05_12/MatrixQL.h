@@ -4,11 +4,15 @@
 
 namespace tinyDNN {
 
+	//	定义底层Eigen矩阵模板
+	template <typename Dtype>
+	using MatrixData = typename Eigen::Matrix <Dtype, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
+
 	template <typename Dtype>
 	class MatrixQL
 	{
 		//	定义底层Eigen矩阵模板
-		using MatrixData = Eigen::Matrix <Dtype, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
+		//using MatrixData = Eigen::Matrix <Dtype, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
 	public:
 		//	MatrixQL() = default;
 		//	显式调用模板构造函数
@@ -16,12 +20,12 @@ namespace tinyDNN {
 		//	析构函数
 		~MatrixQL();
 
-		const MatrixData& getMatrixQL() const;
-		MatrixData& setMatrixQL();
+		const MatrixData<Dtype>& getMatrixQL() const;
+		MatrixData<Dtype>& setMatrixQL();
 
 	private:
 		//	声明底层矩阵
-		MatrixData matrixData;
+		MatrixData<Dtype> matrixData;
 		//	矩阵行数
 		int rowNum;
 		//	矩阵列数
@@ -48,13 +52,13 @@ namespace tinyDNN {
 	//	取出底层数据库
 	//	注意：这里返回模板类内定义类型的时候，需要加typeName
 	template <typename Dtype>
-	inline const typename MatrixQL<Dtype>::MatrixData& MatrixQL<Dtype>::getMatrixQL() const
+	inline const typename /*MatrixQL<Dtype>::*/MatrixData<Dtype>& MatrixQL<Dtype>::getMatrixQL() const
 	{
 		return this->matrixData;
 	}
 
 	template <typename Dtype>
-	inline typename MatrixQL<Dtype>::MatrixData& MatrixQL<Dtype>::setMatrixQL()
+	inline typename /*MatrixQL<Dtype>::*/MatrixData<Dtype>& MatrixQL<Dtype>::setMatrixQL()
 	{
 		return this->matrixData;
 	}
