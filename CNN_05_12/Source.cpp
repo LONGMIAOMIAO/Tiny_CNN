@@ -15,6 +15,8 @@
 #include "SoftMax_Layer_Test.h"
 #include "Data_Augmentation_Test.h"
 #include "Mnist_Conv_T2.h"
+#include "Bias_Conv_Layer_Test.h"
+#include "Cifar10_T2.h"
 using namespace tinyDNN;
 int main()
 {
@@ -44,7 +46,11 @@ int main()
 	//≤‚ ‘Softmax≤„
 	//SoftMax_Layer_Test test;
 
-	mnist_Conv_T_1();
+	//mnist_Conv_T_1();
+
+	Cifar10_T2_1();
+
+	//Bias_Conv_Layer_Test();
 
 	return 0;
 }

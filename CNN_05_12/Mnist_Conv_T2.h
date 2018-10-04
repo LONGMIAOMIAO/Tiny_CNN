@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "omp.h"
 #include "LoadCSV.h"
 #include "LayerQL.h"
@@ -32,7 +31,7 @@ namespace tinyDNN
 
 		std::shared_ptr<LayerQL<double>> rule_01 = std::make_shared<Relu_LayerQL<double>>(Relu_Conv_Layer);	//Relu层
 		std::shared_ptr<Inter_LayerQL<double>> o_02 = o_01 + rule_01;
-		rule_01->pRelu_k = 0.1;
+		//rule_01->pRelu_k = 0.1;
 
 
 		std::shared_ptr<LayerQL<double>> pool_01 = std::make_shared<PooLayerQL<double>>(Pool_Layer, 14, 14);	//池化层
@@ -46,7 +45,7 @@ namespace tinyDNN
 
 		std::shared_ptr<LayerQL<double>> rule_02 = std::make_shared<Relu_LayerQL<double>>(Relu_Conv_Layer);	//Relu层
 		std::shared_ptr<Inter_LayerQL<double>> o_05 = o_04 + rule_02;
-		rule_02->pRelu_k = 0.1;
+		//rule_02->pRelu_k = 0.1;
 
 
 		std::shared_ptr<LayerQL<double>> pool_02 = std::make_shared<PooLayerQL<double>>(Pool_Layer, 7, 7);	//池化层
@@ -63,7 +62,7 @@ namespace tinyDNN
 
 		std::shared_ptr<LayerQL<double>> rule_03 = std::make_shared<Relu_LayerQL<double>>(Relu_Layer);	//Relu层
 		std::shared_ptr<Inter_LayerQL<double>> o_09 = o_08 + rule_03;
-		rule_03->pRelu_k = 0.1;
+		//rule_03->pRelu_k = 0.1;
 
 		std::shared_ptr<LayerQL<double>> lossLayer_01 = std::make_shared<SoftMax_LayerQL<double>>(SoftMax_Layer);//Loss层
 		std::shared_ptr<Inter_LayerQL<double>> o_10 = o_09 + lossLayer_01;
@@ -76,27 +75,24 @@ namespace tinyDNN
 			rule_01->pRelu_k = 0.12;
 			rule_02->pRelu_k = 0.12;
 			rule_03->pRelu_k = 0.12;
-			//sigmoid_02_02->pRelu_k = 0.12;
+
 			if (i < 2)
 			{
 				conv_01->upConv = 0.02;
 				conv_02->upConv = 0.02;
 				fullconnect_01->upFull = 0.015;
-				//fullconnect_01_02->upFull = 0.015;
 			}
 			if (i < 4)
 			{
 				conv_01->upConv = 0.015;
 				conv_02->upConv = 0.015;
 				fullconnect_01->upFull = 0.009;
-				//fullconnect_01_02->upFull = 0.009;
 			}
 			else if (i < 6)
 			{
 				conv_01->upConv = 0.008;
 				conv_02->upConv = 0.008;
 				fullconnect_01->upFull = 0.006;
-				//fullconnect_01_02->upFull = 0.006;
 			}
 			//这里有突变,重点关注这个学习率
 			else if (i < 8)
@@ -104,28 +100,24 @@ namespace tinyDNN
 				conv_01->upConv = 0.004;
 				conv_02->upConv = 0.004;
 				fullconnect_01->upFull = 0.003;
-				//fullconnect_01_02->upFull = 0.003;
 			}
 			else if (i < 10)
 			{
 				conv_01->upConv = 0.002;
 				conv_02->upConv = 0.002;
 				fullconnect_01->upFull = 0.001;
-				//fullconnect_01_02->upFull = 0.001;
 			}
 			else if (i < 12)
 			{
 				conv_01->upConv = 0.001;
 				conv_02->upConv = 0.001;
 				fullconnect_01->upFull = 0.0005;
-				//fullconnect_01_02->upFull = 0.0005;
 			}
 			else if (i < 14)
 			{
 				conv_01->upConv = 0.0005;
 				conv_02->upConv = 0.0005;
 				fullconnect_01->upFull = 0.0002;
-				//fullconnect_01_02->upFull = 0.0002;
 			}
 			else if (i < 18)
 			{
@@ -133,21 +125,14 @@ namespace tinyDNN
 				conv_02->upConv = 0.00005;
 				fullconnect_01->upFull = 0.00005;
 			}
-			//conv_01->upConv = 0.5 / pow(10, i/4);
-			//fullconnect_01->upFull = 0.15 / pow(10, i/4);
 
 			//#pragma omp parallel
 			for (int j = 0; j < 55000; j++)
 			{
-				//std::cout << j << std::endl;
 				if (j % 10000 == 0) std::cout << i << "::" << j << std::endl;
-
-				//in_01->forward_Matrix_Vector = LoadCifar_10::cifar_Input_Vector[j];
 				//入参
 				in_01->forward_Matrix_Vector.clear();
 				in_01->forward_Matrix_Vector.push_back(LoadCSV::conv_Input_Vector[j]);
-
-				//o_10->backward_Matrix->setMatrixQL() = LoadCifar_10::cifar_Out_Lable->getMatrixQL().row(j);
 				o_10->backward_Matrix->setMatrixQL() = LoadCSV::output_Layer->backward_Matrix->getMatrixQL().row(j);
 
 				//从头开始进行前向传播

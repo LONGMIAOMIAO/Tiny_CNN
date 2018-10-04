@@ -19,7 +19,8 @@ namespace tinyDNN
 		Conv_Layer = 6,
 		Padding_Layer = 7,
 		Dim_Reduce_Layer = 8,
-		Data_Augmentation_Layer = 9,
+		Data_Augmentation_Layer = 10,
+		Bias_Conv_Layer_L = 11
 	};
 
 	template <typename Dtype>
@@ -38,6 +39,8 @@ namespace tinyDNN
 		friend class Test;
 		friend class Mnist_Conv_Test;
 		friend void mnist_Conv_T_1();
+		friend void rightValue(std::shared_ptr<Inter_LayerQL<double>> inLayer, std::shared_ptr<Inter_LayerQL<double>> endLayer, std::shared_ptr<LayerQL<double>> lossLayer);
+		//friend void Cifar10_T2_1();
 
 		template <typename Dtype> 
 		friend std::shared_ptr<Inter_LayerQL<Dtype>> operator+( std::shared_ptr<Inter_LayerQL<Dtype>>& operLeft,  std::shared_ptr<LayerQL<Dtype>>& operRight);
