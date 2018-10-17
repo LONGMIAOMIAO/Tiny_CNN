@@ -39,6 +39,7 @@ namespace tinyDNN
 		friend class Test;
 		friend class Mnist_Conv_Test;
 		friend void mnist_Conv_T_1();
+		friend void mnist_Conv_T_2();
 		friend void rightValue(std::shared_ptr<Inter_LayerQL<double>> inLayer, std::shared_ptr<Inter_LayerQL<double>> endLayer, std::shared_ptr<LayerQL<double>> lossLayer);
 		//friend void Cifar10_T2_1();
 

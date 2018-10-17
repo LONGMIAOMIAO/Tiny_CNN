@@ -46,9 +46,9 @@ int main()
 	//≤‚ ‘Softmax≤„
 	//SoftMax_Layer_Test test;
 
-	//mnist_Conv_T_1();
+	mnist_Conv_T_1();
 
-	Cifar10_T2_1();
+	//Cifar10_T2_2();
 
 	//Bias_Conv_Layer_Test();
 
