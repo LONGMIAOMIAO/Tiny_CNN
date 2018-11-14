@@ -9,7 +9,7 @@ namespace tinyDNN
 	{
 	public:
 		friend class Test;
-		explicit Fullconnect_LayerQL( LayerType type, int rowNum, int colNum);
+		Fullconnect_LayerQL( LayerType type, int rowNum, int colNum);
 		~Fullconnect_LayerQL() override final;
 
 		void calForward(int type = 0) const override final;
@@ -64,7 +64,6 @@ namespace tinyDNN
 	void Fullconnect_LayerQL<Dtype>::calForward(int type = 0) const
 	{
 		//std::cout << this->w_MatrixQL->getMatrixQL() << std::endl;
-
 
 		//Ç°´«	ÊäÈë * W
 		this->right_Layer->forward_Matrix->setMatrixQL() = this->left_Layer->forward_Matrix->getMatrixQL() * this->w_MatrixQL->getMatrixQL();

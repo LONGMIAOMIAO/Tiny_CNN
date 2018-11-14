@@ -8,7 +8,7 @@ namespace tinyDNN
 	class Conv_Kernel
 	{
 	public:
-		explicit Conv_Kernel(int rowNum, int colNum, int kernelWidth, int kernelSize, int paddingSize) : rowNum(rowNum), colNum(colNum), kernelWidth(kernelWidth), kernelSize(kernelSize), paddingSize(paddingSize)
+		Conv_Kernel(int rowNum, int colNum, int kernelWidth, int kernelSize, int paddingSize) : rowNum(rowNum), colNum(colNum), kernelWidth(kernelWidth), kernelSize(kernelSize), paddingSize(paddingSize)
 		{
 			for (int i = 0; i < kernelSize; i++)
 			{
@@ -29,7 +29,6 @@ namespace tinyDNN
 				////实操
 				//oneSlice_Kernel->setMatrixQL().setRandom();
 
-
 				//实操， 采用高斯随机，正态分布
 				std::random_device rd;
 				std::mt19937 gen(rd());
@@ -43,12 +42,11 @@ namespace tinyDNN
 					}
 				}
 
-
-				//一个卷积核有i片
+				//	一个卷积核有i片
 				this->conv_Kernel_Vector.push_back(oneSlice_Kernel);
 			}
 		}
-		//对输入的片集合进行相乘并相加
+		//	对输入的片集合进行相乘并相加
 		void conv_CalForward(std::vector<std::shared_ptr<MatrixQL<Dtype>>>& inMatrixVector, std::shared_ptr<MatrixQL<Dtype>>& outMatrix)
 		{
 
@@ -95,14 +93,14 @@ namespace tinyDNN
 	};
 
 
-	//==================================================================================================================================================================
+	//=======================================================================================================================
 
 	template <typename Dtype> 
 	class Conv_LayerQL : public LayerQL<Dtype>
 	{
 	public:
 		//							类型			卷积核数			行数			列数				卷积核宽度		卷积核几片		扩充宽度	
-		explicit Conv_LayerQL(LayerType type, int kernelNum, int rowNum, int colNum, int kernelWidth, int kernelSize, int paddingSize ) : LayerQL(type), kernelNum(kernelNum), rowNum(rowNum), colNum(colNum), kernelWidth(kernelWidth), kernelSize(kernelSize), paddingSize(paddingSize)
+		Conv_LayerQL(LayerType type, int kernelNum, int rowNum, int colNum, int kernelWidth, int kernelSize, int paddingSize ) : LayerQL(type), kernelNum(kernelNum), rowNum(rowNum), colNum(colNum), kernelWidth(kernelWidth), kernelSize(kernelSize), paddingSize(paddingSize)
 		{
 			std::cout << "Conv_LayerQL Start!" << std::endl;
 
@@ -119,7 +117,6 @@ namespace tinyDNN
 			std::cout << "Conv_LayerQL Over!" << std::endl;
 		}
 
-
 		void calForward(int type = 0) const override final
 		{
 			//每次向前传播先清理掉集合中的内容再重新插入
@@ -134,7 +131,6 @@ namespace tinyDNN
 				this->right_Layer->forward_Matrix_Vector.push_back( outMatrix );
 			}
 		}
-
 
 		void calBackward(int type = 0) override final
 		{

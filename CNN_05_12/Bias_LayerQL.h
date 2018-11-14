@@ -6,7 +6,7 @@ namespace tinyDNN
 	class Bias_LayerQL : public LayerQL<Dtype>
 	{
 	public:
-		explicit Bias_LayerQL( LayerType type, int rowNum, int colNum, Dtype ranNum);
+		Bias_LayerQL( LayerType type, int rowNum, int colNum, Dtype ranNum);
 		~Bias_LayerQL() override final;
 
 		void calForward(int type = 0) const override final;

@@ -7,7 +7,7 @@ namespace tinyDNN
 	class Relu_LayerQL : public LayerQL<Dtype>
 	{
 	public:
-		explicit Relu_LayerQL(LayerType type) : LayerQL(type)
+		Relu_LayerQL(LayerType type) : LayerQL(type)
 		{
 			std::cout << "Relu_LayerQL Start!" << std::endl;
 		}

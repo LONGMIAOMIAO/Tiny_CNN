@@ -7,7 +7,7 @@ namespace tinyDNN
 	class MSE_Loss_LayerQL : public LayerQL<Dtype>
 	{
 	public:
-		explicit MSE_Loss_LayerQL(LayerType type);
+		MSE_Loss_LayerQL(LayerType type);
 		~MSE_Loss_LayerQL() override final;
 
 		void calForward(int type = 0) const override final;

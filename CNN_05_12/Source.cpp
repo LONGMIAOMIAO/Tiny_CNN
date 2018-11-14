@@ -37,7 +37,7 @@ int main()
 	//²âÊÔÊı¾İÔöÇ¿²ã
 	//Data_Augmentation_Test test;
 
-	////²âÊÔ¾í»ıÍøÂç²ã=======================================================================================
+	////²âÊÔ¾í»ıÍøÂç²ã=============
 	//Mnist_Conv_Test test;
 
 	//²âÊÔRelu²ã
@@ -46,7 +46,7 @@ int main()
 	//²âÊÔSoftmax²ã
 	//SoftMax_Layer_Test test;
 
-	mnist_Conv_T_1();
+	mnist_Conv_T_2();
 
 	//Cifar10_T2_2();
 

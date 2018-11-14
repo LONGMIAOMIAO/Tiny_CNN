@@ -10,7 +10,7 @@ namespace tinyDNN
 	public:
 		using MatrixD = Eigen::Matrix<Dtype, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
 
-		explicit Dim_ReduceQL(LayerType type, int kerNum, int rowNum, int colNum) : LayerQL(type), kerNum(kerNum), rowNum(rowNum), colNum(colNum)
+		Dim_ReduceQL(LayerType type, int kerNum, int rowNum, int colNum) : LayerQL(type), kerNum(kerNum), rowNum(rowNum), colNum(colNum)
 		{
 			std::cout << "Dim_ReduceQL Start!" << std::endl;
 		}

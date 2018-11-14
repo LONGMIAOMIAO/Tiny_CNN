@@ -6,7 +6,7 @@ namespace tinyDNN
 	class Bias_Conv_Layer : public LayerQL<Dtype>
 	{
 	public:
-		//									几片			行数				列数
+		//									   几片			 行数		 列数
 		Bias_Conv_Layer( LayerType type, int kernelNum, int rowNum, int colNum ) : LayerQL(type), kernelNum(kernelNum), rowNum(rowNum), colNum(colNum)
 		{
 			std::cout << "Bias_Conv_Layer Start!" << std::endl;
@@ -26,7 +26,7 @@ namespace tinyDNN
 
 		void calForward(int type = 0) const override final
 		{
-			//每次向前传播先清理掉集合中的内容再重新插入
+			//	每次向前传播先清理掉集合中的内容再重新插入，这里貌似可以优化
 			this->right_Layer->forward_Matrix_Vector.clear();
 
 			for (int i = 0; i < kernelNum; i++)
@@ -56,7 +56,6 @@ namespace tinyDNN
 
 	public:
 		//std::vector<std::shared_ptr<Conv_Kernel<Dtype>>> conv_Kernel_Vector;
-
 		std::vector<std::unique_ptr<MatrixQL<Dtype>>> b_MatrixQL;
 
 		//卷积核的个数

@@ -19,7 +19,7 @@ namespace tinyDNN
 		template <typename Dtype> 
 		friend std::shared_ptr<Inter_LayerQL<Dtype>> operator+(std::shared_ptr<Inter_LayerQL<Dtype>>& operLeft, std::shared_ptr<LayerQL<Dtype>>& operRight);
 
-		explicit Inter_LayerQL(int rowNum = 0, int colNum = 0);
+		Inter_LayerQL(int rowNum = 0, int colNum = 0);
 		~Inter_LayerQL();
 
 	public:

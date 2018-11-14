@@ -16,7 +16,7 @@ namespace tinyDNN {
 	public:
 		//	MatrixQL() = default;
 		//	显式调用模板构造函数
-		explicit MatrixQL(int rowNum, int colNum);
+		MatrixQL(int rowNum, int colNum);
 		//	析构函数
 		~MatrixQL();
 

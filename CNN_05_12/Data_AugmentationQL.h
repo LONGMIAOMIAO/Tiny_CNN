@@ -7,7 +7,7 @@ namespace tinyDNN
 	class Data_AugmentationQL : public LayerQL<Dtype>
 	{
 	public:
-		explicit Data_AugmentationQL(LayerType type, int rowNum, int colNum) : LayerQL(type), rowNum(rowNum), colNum(colNum)
+		Data_AugmentationQL(LayerType type, int rowNum, int colNum) : LayerQL(type), rowNum(rowNum), colNum(colNum)
 		{
 			std::cout << "Data_AugmentationQL Start!" << std::endl;
 		}
@@ -22,10 +22,6 @@ namespace tinyDNN
 			for ( auto i = this->left_Layer->forward_Matrix_Vector.begin(); i != this->left_Layer->forward_Matrix_Vector.end(); i++ )
 			{
 				std::shared_ptr<MatrixQL<Dtype>> augMatrix = std::make_shared<MatrixQL<Dtype>>(rowNum, colNum);
-
-				//int randCase = rand() % 2;
-
-				//std::cout << randCase << std::endl;
 
 				switch (randCase)
 				{

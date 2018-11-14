@@ -7,7 +7,7 @@ namespace tinyDNN
 	class Sigmoid_LayerQL : public LayerQL<Dtype>
 	{
 	public:
-		explicit Sigmoid_LayerQL(LayerType type);
+		Sigmoid_LayerQL(LayerType type);
 		~Sigmoid_LayerQL() override final;
 
 		void calForward(int type = 0) const override final;

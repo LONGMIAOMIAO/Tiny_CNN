@@ -10,7 +10,7 @@ namespace tinyDNN
 		//	¶¨Òåµ×²ãEigen¾ØÕóÄ£°å
 		//	using MatrixData = Eigen::Matrix <Dtype, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
 
-		explicit PooLayerQL(LayerType type, int rowNum, int colNum);
+		PooLayerQL(LayerType type, int rowNum, int colNum);
 		~PooLayerQL() override final;
 
 		void calForward(int type = 0) const override final;
