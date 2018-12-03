@@ -17,6 +17,7 @@
 #include "Mnist_Conv_T2.h"
 #include "Bias_Conv_Layer_Test.h"
 #include "Cifar10_T2.h"
+#include "TuLi_Test.h"
 using namespace tinyDNN;
 int main()
 {
@@ -47,11 +48,15 @@ int main()
 	//SoftMax_Layer_Test test;
 
 
-	mnist_Conv_T_2();
+	//mnist_Conv_T_2();
 
 	//Cifar10_T2_2();
 
 	//Bias_Conv_Layer_Test();
+
+	//LoadTuLi::load_Tuli();
+	//LoadTuLi::load_Tuli_T();
+	tuli_Conv_1();
 
 	return 0;
 }

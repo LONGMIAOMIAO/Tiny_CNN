@@ -21,6 +21,8 @@ namespace tinyDNN
 	std::vector< std::vector< std::shared_ptr<MatrixQL<double> > > > LoadCifar_10::cifar_Input_Vector_T;
 	std::shared_ptr< MatrixQL<double> > LoadCifar_10::cifar_Out_Lable_T = std::make_shared<MatrixQL<double>>(10000,10);
 
+	//**********************************************************************************************************************
+
 	LoadCSV::LoadCSV(){}
 
 	LoadCSV::~LoadCSV(){}
@@ -255,4 +257,117 @@ namespace tinyDNN
 		//std::cout << LoadCifar_10::cifar_Out_Lable_T->getMatrixQL() << std::endl;
 		//std::cout << LoadCifar_10::cifar_Out_Lable->getMatrixQL() << std::endl;
 	}
+
+
+	//******************************************************************
+	//加载Tuli数据集，训练集，8+8+8个
+	std::vector<std::shared_ptr<MatrixQL<double>>> LoadTuLi::tuli_Train;
+	std::vector<std::shared_ptr<MatrixQL<double>>> LoadTuLi::tuli_Test;
+
+
+	void LoadTuLi::load_Tuli()
+	{
+		//	Train
+		for ( int i = 1; i < 24; i++ )
+		{
+			// 读入 训练集 的 训练文件
+			//	H:\CNN_0510\DATA\JZT\train
+			std::string inHandler_Begin = "H:/CNN_0510/DATA/JZT/train/";
+			std::string inHandler_End = ".txt";
+
+			std::string inHandler;
+
+			inHandler = inHandler_Begin.append(std::to_string(i)).append(inHandler_End);
+
+			// 读入 训练集 的 训练文件
+			std::ifstream inFile( inHandler, std::ios::in);
+			std::string lineStr;
+			int lineNum = 0;
+
+			std::shared_ptr<MatrixQL<double>> mat = std::make_shared<MatrixQL<double>>(128, 128);
+			std::cout << "i::" << i << std::endl;
+			while (std::getline(inFile, lineStr))
+			{
+				std::stringstream ss(lineStr);
+				std::string str;
+				// 按照逗号分隔
+
+				int inNum = 0;
+				while (std::getline(ss, str, ' '))
+				{
+					//LoadCSV::input_Layer->forward_Matrix->setMatrixQL()(lineNum, inNum) = atoi(str.c_str());
+					
+					int row = inNum / 128;
+					int col = inNum % 128;
+					
+					mat->setMatrixQL()(row,col) = atof(str.c_str());
+
+					inNum++;
+					//std::cout << inNum << std::endl;
+				}
+				
+				lineNum++;
+				std::cout << lineNum << std::endl;
+			}
+
+			std::cout << "First::" << mat->getMatrixQL()(0, 0) << std::endl;
+			std::cout << "Last::" << mat->getMatrixQL()(127, 127) << std::endl;
+
+			LoadTuLi::tuli_Train.push_back(mat);
+		}
+	}
+
+
+	void LoadTuLi::load_Tuli_T()
+	{
+		//	Test
+		for (int i = 1; i < 7; i++)
+		{
+			// 读入 训练集 的 训练文件
+			//	H:\CNN_0510\DATA\JZT\train
+			std::string inHandler_Begin = "H:/CNN_0510/DATA/JZT/test/";
+			std::string inHandler_End = ".txt";
+
+			std::string inHandler;
+
+			inHandler = inHandler_Begin.append(std::to_string(i)).append(inHandler_End);
+
+			// 读入 训练集 的 训练文件
+			std::ifstream inFile(inHandler, std::ios::in);
+			std::string lineStr;
+			int lineNum = 0;
+
+			std::shared_ptr<MatrixQL<double>> mat = std::make_shared<MatrixQL<double>>(128, 128);
+			std::cout << "i::" << i << std::endl;
+			while (std::getline(inFile, lineStr))
+			{
+				std::stringstream ss(lineStr);
+				std::string str;
+				// 按照逗号分隔
+
+				int inNum = 0;
+				while (std::getline(ss, str, ' '))
+				{
+					//LoadCSV::input_Layer->forward_Matrix->setMatrixQL()(lineNum, inNum) = atoi(str.c_str());
+
+					int row = inNum / 128;
+					int col = inNum % 128;
+
+					mat->setMatrixQL()(row, col) = atof(str.c_str());
+
+					inNum++;
+					//std::cout << inNum << std::endl;
+				}
+
+				lineNum++;
+				std::cout << lineNum << std::endl;
+			}
+
+			std::cout << "First::" << mat->getMatrixQL()(0, 0) << std::endl;
+			std::cout << "Last::" << mat->getMatrixQL()(127, 127) << std::endl;
+
+			LoadTuLi::tuli_Test.push_back(mat);
+		}
+	}
+
 }

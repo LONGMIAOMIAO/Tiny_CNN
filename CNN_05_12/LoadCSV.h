@@ -54,4 +54,14 @@ namespace tinyDNN
 		static std::vector< std::vector< std::shared_ptr<MatrixQL<double> > > > cifar_Input_Vector_T;
 		static std::shared_ptr< MatrixQL<double> > cifar_Out_Lable_T;
 	};
+
+	class LoadTuLi
+	{
+	public:
+		static void load_Tuli();
+		static void load_Tuli_T();
+
+		static std::vector<std::shared_ptr<MatrixQL<double>>> tuli_Train;
+		static std::vector<std::shared_ptr<MatrixQL<double>>> tuli_Test;
+	};
 }
