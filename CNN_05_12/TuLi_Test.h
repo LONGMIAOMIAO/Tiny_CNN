@@ -147,7 +147,7 @@ namespace tinyDNN
 			}
 		}
 
-		for (int j = 1; j < 7; j++)
+		for (int j = 1; j < 10; j++)
 		{
 			in_01->forward_Matrix_Vector.clear();
 			in_01->forward_Matrix_Vector.push_back(LoadTuLi::tuli_Test[j - 1]);

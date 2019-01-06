@@ -321,7 +321,7 @@ namespace tinyDNN
 	void LoadTuLi::load_Tuli_T()
 	{
 		//	Test
-		for (int i = 1; i < 7; i++)
+		for (int i = 1; i < 10; i++)
 		{
 			// 读入 训练集 的 训练文件
 			//	H:\CNN_0510\DATA\JZT\train
